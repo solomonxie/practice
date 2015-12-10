@@ -33,7 +33,7 @@ def test_BeautifulSoup():
 		# 实际上有时候我发现，必须以unicode传入才能获得正确结果。。。
 		# 这里试验发现，还真的是如此!必须传入decode过的码
 	'''
-	html_doc = open('page-sm1.html', 'r').read().decode('utf-8')
+	html_doc = open('test-Zhilian-list-page-sm1.html', 'r').read().decode('utf-8')
 
 
 	'''
