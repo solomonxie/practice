@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 '''
-	# Title : 智联招聘信息爬虫
+	# Title : 智联招聘信息爬虫 - 搜索列表部分
 	# Author: Solomon Xie
 	# Usage : A practise with python: 
 				get job information from a chinese job seeking web Zhilian.com.
 				This little project is auctually a web crawler, 
 				which uses some techniques such as BeautifulSoup and urllib2 and so on.
+	# Update: v1.0 已经能够获取
 '''
 import urllib2, urllib
 import time, re
@@ -13,11 +14,11 @@ import bs4 # 必须导入，因为需要做一些bs4专有类型的判断
 from bs4 import BeautifulSoup
 
 def ZhilianFetch(keyword = '数据'):
-	url = 'http://sou.zhaopin.com/jobs/searchresult.ashx'
+	baseurl = 'http://sou.zhaopin.com/jobs/searchresult.ashx'
 	headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'}
 	data_filter = {
 		'kw' : keyword, # 搜索关键词
-		'sm' : '1', # 显示方式代码： 列表是'0',详细是'1'。显示不同源码也不同，尽量选列表模式，源码更好解析。
+		'sm' : '0', # 显示方式代码： 列表是'0',详细是'1'。显示不同源码也不同，尽量选列表模式，源码更好解析。
 		'jl' : '北京', # 搜索城市：'北京'，多项用'+'连接(URL编码为%2B)
 		#'bj' : '', # 职位类别代码：互联网产品/运营管理 的代码为 '160200'，多项用'%3B'连接(URL编码的%)
 		#'in' : '', # 行业代码：多项用';'连接(URL编码为%3B)
@@ -42,19 +43,24 @@ def ZhilianFetch(keyword = '数据'):
 		're' : '2015', #
 		#'' : '' #
 	}
-	# 这一步的时间几乎可以忽略不计
-	req = urllib2.Request(url, urllib.urlencode(data_filter), headers)
-	print url+ '?' + urllib.urlencode(data_filter) # 显示正在处理的网页
+	# 这一步并不花时间
+
+	fullurl = '%s?%s' %(baseurl, urllib.urlencode(data_filter))
+	print '正在处理页面：' + fullurl # 显示正在处理的网页
 
 	'''
 	# 以上为获取信息之前的准备工作，占用时间极断，且不容易出问题。
 	# 下面开始正式解析。遇到编码错误、搜索错误会较多。
 	'''
-	# urlopen().read()会占用很长时间，1秒左右
-	# 同样的源码，网页解析不出来，存到本地就可以。
-	# html_doc = urllib2.urlopen(req).read().decode('utf-8') 
-	# 测试时用本地网页,0.001秒
-	html_doc = open('test-Zhilian-list-page-sm1.html', 'r').read().decode('utf-8')
+	# === Post方式获取源码 ===
+	# req = urllib2.Request(baseurl, urllib.urlencode(data_filter), headers)
+	# html_doc = urllib2.urlopen(req).read().decode('utf-8') # 智联招聘屏蔽了Post方式，会给你呈现一堆广告
+	# === Get 方式获取源码 ===
+	html_doc = urllib2.urlopen(fullurl).read().decode('utf-8') # 用时1秒。
+	# === 本地方式读取源码 ===
+	# html_doc = open('test-Zhilian-list-page-sm0.html', 'r').read().decode('utf-8') # 测试用，0.001秒
+
+	# === BeautifulSoup解析源码，也是最花时间的，解析器不对则会造成7秒/页面 ===
 	soup = BeautifulSoup(html_doc, 'html5lib')
 
 	'''
@@ -63,58 +69,68 @@ def ZhilianFetch(keyword = '数据'):
 	# 不过需要稍稍了解下`CSS选择器的语法`。
 	'''
 	####### 以下匹配引擎，只适合智联招聘的“详细”页面，url中sm参数需设置为1。
-	# 找到'大容器'，再对它进行操作
-	results = soup.select('div#newlist_list_content_table')
-	output  = '' # 储存输出结果
-	if len(results):
-		container = results[0] # 一个页面只能有一个'大容器'
-		# 开始对'大容器'中的多条记录进行拆分
-		# class$=xx指以xx结尾的class名
-		# 因为智联有很多的class名都是以"newlist"开头，
-		# 所以只能以它结尾来搜索，否则会匹配到好多不正确的列表。
-		records = container.select('div[class$=newlist]')
-		print len(records)
-		if len(records):
-			data = ''
-			for row in records:
-				data = '%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' %(
-					bsText(row.select('[class*=zwmc]'), '职位名称') , # 职位名称
-					bsText(row.select('[class*=fk_lv]'), '反馈率') , # 反馈率
-					bsText(row.select('[class*=gsmc]'), '公司名称') , # 公司名称
-					bsText(row.select('[class*=zwyx]'), '职位月薪') , # 职位月薪
-					bsText(row.find_all(text=re.compile(u'地点：')), '工作地点') , # 工作地点
-					bsText(row.find_all(text=re.compile(u'公司性质：')), '公司性质') , # 公司性质
-					bsText(row.find_all(text=re.compile(u'公司规模：')), '公司规模') , # 公司规模
-					bsText(row.find_all(text=re.compile(u'经验：')), '工作经验') , # 工作经验
-					bsText(row.find_all(text=re.compile(u'学历：')), '学历背景') , # 学历背景
-					bsText(row.find_all(text=re.compile(u'岗位职责：')), '公司规模') , # 公司规模
-					bsText(row.select('dl p'), '更新时间') # 更新时间
-				)
-				# output = data['gzdd'] + '\n' # OK 测试字典格式数据用
-				# print data['gzdd'] # OK 测试字典格式数据用
-				# 事实证明，这里最好还是用字符串，，因为除了它之外列表、字典之类都没法保证正确的编码输出。
-				output += '%s\n%s%s' %(data, '='*40, '\n\n')
-				# ls = row.select('[class*=zwmc]')
-				# print row.prettify('utf-8')
-				print data
-				# break # 测试用：只处理一行数据
+	# class$=xx指以xx结尾的class名
+	# 因为智联有很多的class名都是以"newlist"开头，
+	# 所以只能以它结尾来搜索，否则会匹配到好多不正确的列表。
+	records = soup.select('[class$=newlist]')
+	print '检测到%d条招聘信息。' %len(records)
+	output = '' # 储存待输出的内容
+	if len(records):
+		data = ''
+		for row in records:
+			data = '%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' %(
+				bsText(row, '[class$=zwmc]', '职位名称') ,     # 职位名称
+				bsText(row, '[class$=fk_lv]', '反馈率') ,      # 反馈率
+				bsText(row, '[class$=gsmc]', '公司名称') ,     # 公司名称
+				bsText(row, ['[class$=zwyx]', {'t':u'职位月薪：'}], '职位月薪') , # 职位月薪
+				bsText(row, ['[class$=gxsj]', 'dl p'],              '更新时间'),  # 更新时间
+				bsText(row, {'t':u'地点：'}, '工作地点') ,     # 工作地点
+				bsText(row, {'t':u'公司性质：'}, '公司性质') , # 公司性质
+				bsText(row, {'t':u'公司规模：'}, '公司规模') , # 公司规模
+				bsText(row, {'t':u'经验：'}, '工作经验') ,     # 工作经验
+				bsText(row, {'t':u'学历：'}, '学历背景') ,     # 学历背景
+				bsText(row, {'t':u'岗位职责：'}, '公司规模')   # 公司规模
+			)
+			# output = data['gzdd'] + '\n' # OK 测试字典格式数据用
+			# print data['gzdd'] # OK 测试字典格式数据用
+			# 事实证明，这里最好还是用字符串，，因为除了它之外列表、字典之类都没法保证正确的编码输出。
+			output += '%s\n%s\n' %(data, '='*40)
+			print data
+			# break # 测试用：只处理一行数据
 	# 输出结果
 	if output:
 		f = open('log.txt', 'w')
 		f.write(output)
 		f.close()
 
-def bsText(tags, info=''):
-	if len(tags):
-		t = tags[0] # 因为只会有一个对象
-		# select()选择器返回的是tag标签
-		# 而find_all()用text查询是返回的是字符串！
-		if isinstance(t, bs4.element.Tag):
-			return t.get_text().encode('utf-8')
-		elif isinstance(t, bs4.element.NavigableString):
-			return t.string.encode('utf-8')
-	else:
-		return '无[%s]信息'%info
+# 根据搜索条件，返回搜索结果的字符串
+# 如果pattr是str字符串，则用select选择器搜索结果
+# 如果pattr是dict 字典，则用find_all()搜索结果
+# 如果pattr是list 列表，则分别递归自己直到找出结果
+def bsText(tag, pattr, info=''):
+	if isinstance(pattr, str): # 如果是str字符串，则用select选择器搜索结果
+		result = tag.select(pattr)
+		if len(result):
+			return result[0].get_text().encode('utf-8') # 如果结果不是1个那就不正常了
+		else: print 'tag.select(%s)->0结果' %repr(pattr)
+	elif isinstance(pattr, dict) and pattr['t']: # 是dict 字典，则用find_all()搜索结果
+		result = tag.find_all(text=re.compile(pattr['t']))
+		if len(result): 
+			print  result[0]
+			return result[0].string.encode('utf-8')
+		else: print 'tag.find_all(text="%s")->0结果' %pattr['t'].encode('utf-8')
+	elif isinstance(pattr, list) and len(pattr): # 如果是list 列表，则分别递归本函数直到找出结果
+		for p in pattr:
+			result = bsText(tag, p)
+			# if result : and not result[0]=='无' : # 测试用
+			if result : # and not result[0]=='无' : 
+				return result
+				print '返回结果是:[%s]。测试return会不会退出循环。' %result
+				break # 如果找到结果了，则推出循环
+	else: print '参数不正确'
+	# 如果前面没有得到返回值，则返回空值
+	# return '无[%s]信息'%info # 测试用
+	return ''
 
 # 计算时间
 def timeup(func):
