@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
-import urllib2, urllib, cookielib
+'''
+	# Title : 智联招聘信息爬虫
+	# Author: Solomon Xie
+	# Usage : A practise with python: 
+				get job information from a chinese job seeking web Zhilian.com.
+				This little project is auctually a web crawler, 
+				which uses some techniques such as BeautifulSoup and urllib2 and so on.
+'''
+import urllib2, urllib
 import time, re
 import bs4 # 必须导入，因为需要做一些bs4专有类型的判断
 from bs4 import BeautifulSoup
@@ -46,7 +54,7 @@ def ZhilianFetch(keyword = '数据'):
 	# 同样的源码，网页解析不出来，存到本地就可以。
 	# html_doc = urllib2.urlopen(req).read().decode('utf-8') 
 	# 测试时用本地网页,0.001秒
-	html_doc = open('page-sm%s.html'%data_filter['sm'], 'r').read().decode('utf-8')
+	html_doc = open('test-Zhilian-list-page-sm1.html', 'r').read().decode('utf-8')
 	soup = BeautifulSoup(html_doc, 'html5lib')
 
 	'''
