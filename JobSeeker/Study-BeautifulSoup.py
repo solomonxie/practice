@@ -34,7 +34,7 @@ def test_BeautifulSoup():
 		# 这里试验发现，还真的是如此!必须传入decode过的码
 	'''
 	html_doc = open('test-Zhilian-list-page-sm1.html', 'r').read().decode('utf-8')
-
+	# ^ 这个html文件其实是智联招聘搜索页的源码，可以自己保存下来直接试一试。
 
 	'''
 		# 关于bs4的文档解析器 ##############

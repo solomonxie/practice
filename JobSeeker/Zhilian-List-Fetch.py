@@ -9,21 +9,20 @@
 	# Notes : 切记：全文操作除了输出外，所有和BeautifulSoup相关的变量存储和被操作的全是Unicode格式！否则绝对出问题
 	# Update: v1.0 已经能够准确获取智联招聘搜索结果列表的职位信息了
 '''
-# 必备模块
+# === 必备模块 ===
 import urllib2, urllib, re
 from bs4 import BeautifulSoup
-# 小工具用模块
+# === 小工具用模块 ===
 import time, urlparse
-# 如果要做一些bs4专有类型的判断就必须导入
+# === 如果要做一些bs4专有类型的判断就必须导入 ===
 # import bs4 
 
-def ZhilianSearchJoblist(keyword='数据', assignPage=1, scope=0):
+def ZhilianSearchJoblist(keyword='数据', assignPage=1, totalPages=1, scope=0):
 	'''
 	# Function: 向智联招聘提交搜索信息，并获取智联搜索页的所有职位信息
 	# Params : keyword=搜索关键词，assignPage=页码
 	'''
-	# 暂时手动制定总的读取页数
-	total_pages = 90
+	# ^暂时手动制定总的读取页数
 	if   scope==0 : print '=========== Tring processing General  Search List Page %d ==========='%assignPage
 	elif scope==1 : print '----------- Tring processing Company  Search List Page %d -----------'%assignPage
 	elif scope==2 : print '----------- Tring processing Position Search List Page %d -----------'%assignPage
@@ -101,13 +100,19 @@ def ZhilianSearchJoblist(keyword='数据', assignPage=1, scope=0):
 			else      : print 'Failed on retrieving URL of the job: %s' %data[0]
 			'''
 			# === 跳转并解析企业信息页面 ===
-			# 递归本函数，用企业名搜索其下所有招聘信息。
+			# 方法1
 			# 但是会有问题就是，如果`识别重复`方面没有做好，这里就会形成无限循环。
 			# 可以想到的笨方法就是，先取得所有相关的企业名称和链接，然后再用函数把它读取出来，循环生成。
+			# publicJobs = ZhilianFirmPage(data[-1])
+			# print 'This company is recruiting %d jobs now.' %len(publicJobs)
+			# 方法2
+			# 递归本函数，用企业名搜索其下所有招聘信息。
 			# ZhilianSearchJoblist(data[1].encode('utf-8'), 1, scope=3) 
 			'''
 		# 输出结果：暂时用txt文件输出，后面会用到数据库
-		with open('./data/log-search-scope%d-page%d.txt' %(scope,truePage), 'w') as f:
+		outname = './data/ZhilianSearch-%s-p%d.txt' %(soup.title.get_text(), truePage)
+		# outname = './data/log-search-scope%d-page%d.txt' %(scope,truePage)
+		with open(outname, 'w') as f:
 			f.write('\n%s\n' %' , '.join(data).encode('utf-8') + '='*40)
 		print '%sDone of retrieving page %d' %('_'*80, truePage)
 	'''
@@ -120,7 +125,7 @@ def ZhilianSearchJoblist(keyword='数据', assignPage=1, scope=0):
 		# 如果真实的页码并没有指定页码那么多，就代表搜索到头了。
 		# >>>
 	'''
-	if truePage < total_pages and truePage == assignPage:
+	if truePage < totalPages and truePage == assignPage:
 		ZhilianSearchJoblist(keyword, truePage+1)
 	else: print '-'*50 + 'Reached the end of records.'
 
@@ -129,9 +134,11 @@ def ZhilianJobPage(detailUrl=''):
 	# Function: 获取智联招聘的职位详细信息页面
 	# Params  : detailUrl=页面网址
 	'''
-	print 'Analyzing Job Page : %s' %detailUrl
+	print 'Analyzing a job page.'
 	# === 获取网页源码 ===
 	webTarget = webPageSourceCode(detailUrl)
+	# src = open('./Templates/test-Zhilian-detail-page - AttributeError _ NoneType object has no attribute next_element.html', 'r') # 测试用
+	# webTarget = {'html':unicode(src.read(),'utf-8')}  # 测试用
 	if not webTarget : return '' # 如果没有结果 则推出
 	# === BeautifulSoup解析源码，也是最花时间的，解析器不对则会造成7秒/页面 ===
 	soup = BeautifulSoup(webTarget['html'], 'html5lib')
@@ -142,28 +149,46 @@ def ZhilianJobPage(detailUrl=''):
 	descri  = bsText(soup, pattr='[class*=tab-inner-cont]', more=True) #第一个是职位描述，第二个是企业简介
 	data = [posi, firm, welfare, descri[0], descri[1]]
 	# === 获取职位基本信息的框架 ===
-	# 这个框架中的数据list顺序为：职位月薪->工作地点->发布日期->工作性质->工作经验->最低学历->招聘人数->职位类别
 	resu = bsText(soup, pattr='[class*=terminal-ul] li strong', more=True)
+	# ^这个框架中的数据list顺序为：职位月薪->工作地点->发布日期->工作性质->工作经验->最低学历->招聘人数->职位类别
 	data += resu # 合并两个列表
 	# === 获取企业基本信息的框架 ===
-	# 这个框架中的数据list顺序为：公司规模->公司性质->公司行业->公司主页->公司地址
 	resu = bsText(soup, pattr='[class*=terminal-company] li strong', more=True)
+	# ^这个框架中的数据list顺序为：公司规模->公司性质->公司行业->公司主页->公司地址
 	data += resu # 合并两个列表
-	# 将网页名作为日志文件名
-	txt = './data/%s.txt' % urllib.quote(detailUrl).split('/')[-1]
-	with open(txt, 'w') as f:
+	outname = './data/%s.txt' % urllib.quote(detailUrl).split('/')[-1]
+	# ^将网页名作为日志文件名
+	with open(outname, 'w') as f:
 		f.write('\n'.join(data).encode('utf-8')) # 全文操作除了这里全是Unicode格式！
 	print '-------- Done analyzing the job page : %s' %posi
 	return data
 
 def ZhilianFirmPage(firmUrl=''):
 	'''	
-	# Function: 获取智联招聘的企业详细信息页面
+	# Function: 获取智联招聘的企业详细信息页面里面的企业基本信息及招聘列表。
 	# Params  : firmUrl=页面网址
+	# Steps   : 先判断域名，如果是“标准页面”则正常解析，如果是“Special页面”则在得到“标准页面”后才正式解析。
 	# Notes   : 企业页面就复杂了，分为普通页面和VIP页面，网址不同，源码也不同
 	'''
-	# print '已经解析完一家企业：%s' %firmUrl
-	return ''
+	# === 开始解析网址 ===
+	# 无论是Special页面还是标准页面，都必须要解析。
+	webTarget = webPageSourceCode(firmUrl)
+	soup = BeautifulSoup(webTarget['html'], 'html5lib')
+	# === 根据域名判断当前为“标准页面”还是“Special页面” ===
+	subDomain = urlAnalyse(firmUrl)['subloc'][0]
+	if subDomain == 'special' :
+		# 如果是"Special页面"则获取其标准页面的URL，并重新加载此函数。
+		finder = re.findall(re.compile(r' href="(.+?)"'), str(soup.select('td[align=right]')))
+		standardUrl = finder[0] if finder else ''
+		if len(standardUrl) : 
+			print 'Redirecting from a special company page to a standard page...'
+			ZhilianFirmPage(standardUrl) # 以标准页面重新加载此函
+			return ''		
+	# === 在标准页面中获取该公司所有招聘信息的链接 ===
+	resu = soup.select('[class=positionListContent1] [class*=jobName] a[href]')
+	data = [t['href'] for t in resu ]
+	print 'Done of retrieving %d job links of this company.' %len(resu)
+	return data # 返回所有正在招聘的职位链接
 
 def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 	'''	
@@ -175,12 +200,16 @@ def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 	# req = urllib2.Request(baseUrl, urllib.urlencode(urlParams), headers)
 	# src = urllib2.urlopen(req)
 	# === Get 方式获取源码 ===
-	fullUrl = '%s?%s' %(baseUrl, urllib.urlencode(urlParams)) if urlParams else baseUrl
-	try: src = urllib2.urlopen(fullUrl)
+	if urlParams : fullUrl = '%s?%s' %(baseUrl, urllib.urlencode(urlParams))
+	else : fullUrl = baseUrl
+	# fullUrl = '%s?%s' %(baseUrl, urllib.urlencode(urlParams)) if urlParams else baseUrl
+	print 'Processing a web page: %s' %fullUrl
+	try: 
+		src = urllib2.urlopen(fullUrl)
 	except Exception as e:
-		print 'Failed on retrieving internet resource : %s\nThe error description is as below:' %fullUrl
+		print 'No resources found : %s\nThe error internet resource is :' %fullUrl
 		print e
-
+		return {'html':'','fullUrl':'','trueUrl':''}
 	trueUrl = src.geturl() # 获取真实Url网址
 	# print 'Processing Url: %s' %fullUrl # 测试用。显示正在处理的网页
 	# === 本地方式读取源码 ===
@@ -189,14 +218,6 @@ def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 
 	# === 函数返回网页源码，及必要信息 ===
 	return {'html':html_doc,'fullUrl':fullUrl,'trueUrl':trueUrl}
-
-def urlParam(url=''):
-	'''
-	# Function : 读取url中的参数，并以dict字典返回所有参数
-	'''
-	query  = urlparse.urlparse(url).query
-	params = dict([(key,value[0]) for key, value in urlparse.parse_qs(query).items()])
-	return params
 
 def bsText(tag, pattr, more=False):
 	'''
@@ -213,8 +234,8 @@ def bsText(tag, pattr, more=False):
 	elif isinstance(pattr, dict) and pattr['t']: # 是dict 字典，则用find_all()搜索结果
 		result = tag.find_all(text=re.compile(pattr['t']), strip=True)
 		retr = [r.string for r in result] if result else ''
-		# 字符替换处理。如原文是"职位月薪：8000-10000"，则去掉前面的"职位月薪："几个字
 		retr = [t.replace(pattr['t'], '') for t in retr]
+		# ^字符替换处理。如原文是"职位月薪：8000-10000"，则去掉前面的"职位月薪："几个字
 	elif isinstance(pattr, list) and len(pattr): # 如果是list列表，则递归本函数直到找出结果
 		for sub in pattr:
 			result = bsText(tag, sub, more=more)
@@ -237,35 +258,41 @@ def bsAttrs(tag, pattr):
 	return result[0][pattr[1]].encode('utf-8') if len(result) else ''
 
 # 计算时间
-def timeup(foo, attr1, attr2):
+def timeup(foo, attr1, attr2, attr3):
 	start = time.clock()
-	val = foo(attr1, attr2)
+	val = foo(attr1, attr2, attr3)
 	end = time.clock()
 	timeuse = end-start
 	print '=== Spend %d sec. on running %s()\n' %(timeuse, foo.__name__)
 	return val
 
-def urlQuote(url=''):
+def urlAnalyse(url=''):
 	'''
-	# Function: 研究url编码转换的把戏
+	# Function : 分析拆解URL，并返回相应的数据
+	# Examples : 如URL为`http://sou.zhaopin.com/jobs/searchresult.ashx?p=13sm=0&kt=0#body`
+				 则返回值为：{'scheme':'http','netloc':'sou.zhaopin.com','path':'/jobs/searchresult.ashx',
+				 'params':'','query':'p=13sm=0&kt=0','fragment'='body','values':{['p':'13','sm':'0','kt':'0']}
 	'''
-	url_ori = 'http://sou.zhaopin.com/jobs/searchresult.ashx?sm=1&jl=数据&p=1&gc=5号&ga=立水桥&kt=0&kw=数据'
-	url_coded = '%2fjobs%2fsearchresult.ashx%3fsm%3d1%26jl%3d%25E5%258C%2597%25E4%25BA%25AC%26kt%3d0%26kw%3d%25E6%2595%25B0%25E6%258D%25AE%26gr%3d2%26isfilter%3d1%26p%3d1%26re%3d2015%26ga%3d%25e7%258e%258b%25e8%25be%259b%25e5%25ba%2584'
-	print url_ori
-	print url_coded
-	# 把带中文的ur转换编码成这样的：http%3A//sou.zhaopin.com/jobs/searchresult.ashx%3Fsm%3D1%26jl%3D%E6%95%B0%E6%8D%AE%26p%3D1%26gc%3D5%E5%8F%B7%26ga%3D%E7%AB%8B%E6%B0%B4%E6%A1%A5%26kt%3D0%26kw%3D%E6%95%B0%E6%8D%AE
-	print urllib.quote(url_ori)
-	# 把正常的url再进一步转换：
-	print urllib.quote(urllib.quote(url_ori))
-	# 把url解码还原成有正常的url：http://sou.zhaopin.com/jobs/searchresult.ashx?sm=1&jl=%E5%8C%97%E4%BA%AC&kt=0&kw=%E6%95%B0%E6%8D%AE&gr=2&isfilter=1&p=1&re=2015&ga=%e7%8e%8b%e8%be%9b%e5%ba%84
-	print urllib.unquote(url_coded)
-	# 把正常的url还原成显示中文的url：http://sou.zhaopin.com/jobs/searchresult.ashx?sm=1&jl=北京&kt=0&kw=数据&gr=2&isfilter=1&p=1&re=2015&ga=王辛庄
-	print urllib.unquote(urllib.unquote(url_coded))
+	import urlparse
+	oo = urlparse.urlparse(url)
+	return {
+		'scheme'   : oo[0], # 协议。如'http'/'https'/'ftp'等
+		'netloc'   : oo[1], # 网址。如'www.baidu.com'/'sou.zhaopin.com'等
+		'subloc'   : oo[1].split('.'), # 域名块，list列表。如'www.baidu.com'就会被解析为['www','baidu','com']
+		'path'     : oo[2], # 路径。如'/jobs/2015/123124.html'
+		'file'     : oo[2].split('/')[-1],                # 文件全称。如'searchresult.ashx'
+		'filename' : oo[2].split('/')[-1].split('.')[0],  # 文件名  。如'searchresult'
+		'params'   : oo[3], # ...
+		'query'    : oo[4], # 参数。如'p=13sm=0&kt=0'
+		'fragment' : oo[5], # 分片。如'#title'
+		'quote'    : urllib.quote(url),   # 将url转为带%符号的
+		'unquote'  : urllib.unquote(url), # 将带%符号的转为原url（含中文的话就复杂了，需要双重unquote或字符转编码）
+		'values'   : dict([
+						(key,value[0]) for key, value in urlparse.parse_qs(oo.query).items()
+					])     # 参数值，字典形式。如{['key':'关键词','city':'北京']}
+	}
 
 if __name__ == '__main__':
-	timeup(ZhilianSearchJoblist, '数据', 1) # 在线解析3秒，本地解析2秒
-	# timeup(ZhilianJobPage, 'http://jobs.zhaopin.com/525178924271109.htm?ssidkey=y&ss=201&ff=03', '') # 0~1秒
-	# data = [1,2,3]
-	# retr = [[4],5,6]
-	# data += retr
-	# print data
+	timeup(ZhilianSearchJoblist, '数据', 1, 90) # 在线解析3秒，本地解析2秒
+	# ZhilianJobPage('')
+	# ZhilianFirmPage('http://special.zhaopin.com/pagepublish/25244851/index.html')
