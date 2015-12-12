@@ -6,7 +6,7 @@
 				get job information from a chinese job seeking web Zhilian.com.
 				This little project is auctually a web crawler, 
 				which uses some techniques such as BeautifulSoup and urllib2 and so on.
-	# Notes : 切记：全文操作除了输出外，变量存储和被操作的全是Unicode格式！否则绝对出问题
+	# Notes : 切记：全文操作除了输出外，所有和BeautifulSoup相关的变量存储和被操作的全是Unicode格式！否则绝对出问题
 	# Update: v1.0 已经能够准确获取智联招聘搜索结果列表的职位信息了
 '''
 # 必备模块
@@ -17,37 +17,39 @@ import time, urlparse
 # 如果要做一些bs4专有类型的判断就必须导入
 # import bs4 
 
-def ZhilianSearchJoblist(keyword='数据', assignPage=1):
+def ZhilianSearchJoblist(keyword='数据', assignPage=1, scope=0):
 	'''
 	# Function: 向智联招聘提交搜索信息，并获取智联搜索页的所有职位信息
 	# Params : keyword=搜索关键词，assignPage=页码
 	'''
 	# 暂时手动制定总的读取页数
 	total_pages = 90
-	print '=========== Tring processing List Page %d ==========='%assignPage
+	if   scope==0 : print '=========== Tring processing General  Search List Page %d ==========='%assignPage
+	elif scope==1 : print '----------- Tring processing Company  Search List Page %d -----------'%assignPage
+	elif scope==2 : print '----------- Tring processing Position Search List Page %d -----------'%assignPage
 	# === 编制URL参数 ===
 	urlParams = {
 		'kw' : keyword, # 搜索关键词
-		'sm' : '0', # 显示方式代码： 列表是'0',详细是'1'。显示不同源码也不同，尽量选列表模式，源码更好解析。
+		'sm' : 0, # 显示方式代码： 列表是'0',详细是'1'。显示不同源码也不同，尽量选列表模式，源码更好解析。
 		'jl' : '北京', # 搜索城市：'北京'，多项用'+'连接(URL编码为%2B)
 		#'bj' : '', # 职位类别代码：互联网产品/运营管理 的代码为 '160200'，多项用'%3B'连接(URL编码的%)
 		#'in' : '', # 行业代码：多项用';'连接(URL编码为%3B)
-		'kt' : '0', # 关键词搜索范围：全文'0' | 公司名'1' | 职位名'2'
-		'isadv' : '0', # 是否高级搜索：快速搜索'0' | 高级搜索'1'
-		# 'isfilter' : '1', # 是不是筛选器： '0' | '1'
+		'kt' : scope, # 关键词搜索范围：全文'0' | 公司名'1' | 职位名'2'
+		'isadv' : 0, # 是否高级搜索：快速搜索'0' | 高级搜索'1'
+		# 'isfilter' : 1, # 是不是筛选器： '0' | '1'
 		# 'ispts' : '', # 通常为 '1'
 		#'sj' : '', # 职位子类别代码：
 		# 'gc' : '5号', # 地铁线路： '5号'
 		# 'ga' : '立水桥', # 地名或地铁站名： '天通苑南' 、 '小汤山'
-		# 'sb' : '0', # 排序方式代码：默认排序是'0',相关度排序是'1', 首发日排序是'2'
+		# 'sb' : 0, # 排序方式代码：默认排序是'0',相关度排序是'1', 首发日排序是'2'
 		#'fjt' : '10000', # 职位标签 五险一金'10000' 年底双薪'10001' 绩效奖金'10002' 等等
-		# 'sf' : '-1', # 月薪底线：'8001' 不限是'-1'
-		# 'st' : '-1', # 月薪上限：'10000' 不限是'-1'
-		# 'ct' : '-1', # 公司性质代码
-		# 'el' : '-1', # 学历代码
-		# 'we' : '-1', # 工作经验代码
-		# 'et' : '-1', # 职位类型代码：兼职'1' 全职'2' 实习'4'
-		# 'pd' : '-1', # 发布时间(天数)：一周是'7'，一个月是'30'，不限是'-1'
+		# 'sf' : -1, # 月薪底线：'8001' 不限是'-1'
+		# 'st' : -1, # 月薪上限：'10000' 不限是'-1'
+		# 'ct' : -1, # 公司性质代码
+		# 'el' : -1, # 学历代码
+		# 'we' : -1, # 工作经验代码
+		# 'et' : -1, # 职位类型代码：兼职'1' 全职'2' 实习'4'
+		# 'pd' : -1, # 发布时间(天数)：一周是'7'，一个月是'30'，不限是'-1'
 		'p' : assignPage, # 页码，超出总页码时，则会显示最后一页
 		#'gr' : '', # 
 		# 're' : '2015', # 这个限制了搜素数量，但是其实也不是按年份搜索
@@ -56,6 +58,7 @@ def ZhilianSearchJoblist(keyword='数据', assignPage=1):
 	}
 	# === 获取网页源码 ===
 	webTarget = webPageSourceCode('http://sou.zhaopin.com/jobs/searchresult.ashx', urlParams)
+	if not webTarget : return '' # 如果没有获取到网络信息 则退出 # 不过目前这一句的逻辑是否正确还没想通-_-!
 	# === BeautifulSoup解析源码，也是最花时间的，解析器不对则会造成7秒/页面 ===
 	soup = BeautifulSoup(webTarget['html'], 'html5lib')
 	# === 获取搜索结果的数量 ===
@@ -69,7 +72,8 @@ def ZhilianSearchJoblist(keyword='数据', assignPage=1):
 	print 'The "guid" is %s.' %guid
 	'''
 	# === 获取真实页码 ===
-	truePage = int(bsText(soup, pattr='[class*="pagesDown"] a[class*="current"]'))
+	truePage = bsText(soup, pattr='[class*="pagesDown"] a[class*="current"]')
+	truePage = int(truePage) if truePage else 1 # 如果结果少于1页，则不会有任何结果
 	# === 获取信息条目 ===
 	records = soup.select('[class$=newlist]')
 	print '=== Detected %d Job Information' %len(records)
@@ -91,14 +95,19 @@ def ZhilianSearchJoblist(keyword='数据', assignPage=1):
 				bsAttrs(row,pattr=['[class$=zwmc] a[href^="http"]','href']), # 招聘网址
 				bsAttrs(row,pattr=['[class$=gsmc] a[href^="http"]','href'])  # 企业网址
 			]
-			# 跳转并解析职位信息页面
+			# === 跳转并解析职位信息页面 ===
 			jobUrl = bsAttrs(row,['[class$=zwmc] a[href^="http"]','href'])
-			if jobUrl : ZhilianJobPage(jobUrl, data[0], data[1])
+			if jobUrl : ZhilianJobPage(jobUrl)
 			else      : print 'Failed on retrieving URL of the job: %s' %data[0]
-			# 跳转并解析企业信息页面
-			# ZhilianFirmPage(bsAttrs(row,['[class$=gsmc] a[href^="http"]','href']))
+			'''
+			# === 跳转并解析企业信息页面 ===
+			# 递归本函数，用企业名搜索其下所有招聘信息。
+			# 但是会有问题就是，如果`识别重复`方面没有做好，这里就会形成无限循环。
+			# 可以想到的笨方法就是，先取得所有相关的企业名称和链接，然后再用函数把它读取出来，循环生成。
+			# ZhilianSearchJoblist(data[1].encode('utf-8'), 1, scope=3) 
+			'''
 		# 输出结果：暂时用txt文件输出，后面会用到数据库
-		with open('./data/page-log-%d.txt' %truePage, 'w') as f:
+		with open('./data/log-search-scope%d-page%d.txt' %(scope,truePage), 'w') as f:
 			f.write('\n%s\n' %' , '.join(data).encode('utf-8') + '='*40)
 		print '%sDone of retrieving page %d' %('_'*80, truePage)
 	'''
@@ -111,10 +120,11 @@ def ZhilianSearchJoblist(keyword='数据', assignPage=1):
 		# 如果真实的页码并没有指定页码那么多，就代表搜索到头了。
 		# >>>
 	'''
-	if truePage < total_pages and truePage < assignPage:
+	if truePage < total_pages and truePage == assignPage:
 		ZhilianSearchJoblist(keyword, truePage+1)
+	else: print '-'*50 + 'Reached the end of records.'
 
-def ZhilianJobPage(detailUrl='', posi='', firm=''):
+def ZhilianJobPage(detailUrl=''):
 	'''	
 	# Function: 获取智联招聘的职位详细信息页面
 	# Params  : detailUrl=页面网址
@@ -125,14 +135,19 @@ def ZhilianJobPage(detailUrl='', posi='', firm=''):
 	if not webTarget : return '' # 如果没有结果 则推出
 	# === BeautifulSoup解析源码，也是最花时间的，解析器不对则会造成7秒/页面 ===
 	soup = BeautifulSoup(webTarget['html'], 'html5lib')
-	# 获取职位头信息
-	if not posi : posi = bsText(soup, pattr='[class*=inner-left] h1')
-	if not firm : firm = bsText(soup, pattr='[class*=inner-left] h2')
-	welfare =            bsText(soup, pattr='[class*=welfare-tab-box]')
-	descri  =            bsText(soup, pattr='[class*=tab-inner-cont]')
-	data = [posi, firm, welfare, descri]
-	# === 获取基础信息的框架 ===
-	resu = bsText(soup, pattr='ul[class*=terminal-ul] li strong', more=True)
+	# === 获取职位头信息 ===
+	posi    = bsText(soup, pattr='[class*=inner-left] h1')
+	firm    = bsText(soup, pattr='[class*=inner-left] h2')
+	welfare = bsText(soup, pattr='[class*=welfare-tab-box]')
+	descri  = bsText(soup, pattr='[class*=tab-inner-cont]', more=True) #第一个是职位描述，第二个是企业简介
+	data = [posi, firm, welfare, descri[0], descri[1]]
+	# === 获取职位基本信息的框架 ===
+	# 这个框架中的数据list顺序为：职位月薪->工作地点->发布日期->工作性质->工作经验->最低学历->招聘人数->职位类别
+	resu = bsText(soup, pattr='[class*=terminal-ul] li strong', more=True)
+	data += resu # 合并两个列表
+	# === 获取企业基本信息的框架 ===
+	# 这个框架中的数据list顺序为：公司规模->公司性质->公司行业->公司主页->公司地址
+	resu = bsText(soup, pattr='[class*=terminal-company] li strong', more=True)
 	data += resu # 合并两个列表
 	# 将网页名作为日志文件名
 	txt = './data/%s.txt' % urllib.quote(detailUrl).split('/')[-1]
@@ -161,11 +176,15 @@ def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 	# src = urllib2.urlopen(req)
 	# === Get 方式获取源码 ===
 	fullUrl = '%s?%s' %(baseUrl, urllib.urlencode(urlParams)) if urlParams else baseUrl
-	src = urllib2.urlopen(fullUrl)
+	try: src = urllib2.urlopen(fullUrl)
+	except Exception as e:
+		print 'Failed on retrieving internet resource : %s\nThe error description is as below:' %fullUrl
+		print e
+
 	trueUrl = src.geturl() # 获取真实Url网址
 	# print 'Processing Url: %s' %fullUrl # 测试用。显示正在处理的网页
 	# === 本地方式读取源码 ===
-	# src = open('test-Zhilian-list-page-sm0.html', 'r') # 测试用，0.001秒
+	# src = open('./Templates/test-Zhilian-list-page-sm0.html', 'r') # 测试用，0.001秒
 	html_doc = unicode(src.read(),'utf-8') # 用时1秒。
 
 	# === 函数返回网页源码，及必要信息 ===
@@ -190,10 +209,10 @@ def bsText(tag, pattr, more=False):
 	retr = [] # 待返回的列表对象
 	if isinstance(pattr, str): # 如果是str字符串，则用select选择器搜索结果
 		result = tag.select(pattr)
-		retr = [r.get_text(strip=True) for r in result] if len(result) else ''
+		retr = [r.get_text(strip=True) for r in result] if result else ''
 	elif isinstance(pattr, dict) and pattr['t']: # 是dict 字典，则用find_all()搜索结果
 		result = tag.find_all(text=re.compile(pattr['t']), strip=True)
-		retr = [r.string for r in result] if len(result) else ''
+		retr = [r.string for r in result] if result else ''
 		# 字符替换处理。如原文是"职位月薪：8000-10000"，则去掉前面的"职位月薪："几个字
 		retr = [t.replace(pattr['t'], '') for t in retr]
 	elif isinstance(pattr, list) and len(pattr): # 如果是list列表，则递归本函数直到找出结果
@@ -201,8 +220,11 @@ def bsText(tag, pattr, more=False):
 			result = bsText(tag, sub, more=more)
 			retr = result if result else ''
 			if result : break # 如果已经找到数据 就退出循环
-	if retr : return retr if more else retr[0] # 一般只返回第一条字符串结果，如果要求more则返回一个列表
-	else:     return ''
+	# === 返回运算结果 ===
+	# 一般只返回第一条字符串结果，如果要求more则返回一个列表
+	if not retr : return ''
+	if more : return retr    if retr and isinstance(retr, list) else []
+	else    : return retr if retr and isinstance(retr, str) else retr[0]
 
 def bsAttrs(tag, pattr):
 	'''

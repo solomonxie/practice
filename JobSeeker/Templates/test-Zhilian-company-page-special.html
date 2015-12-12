@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="keywords" content="招聘,人才,网络招聘,简历,工作,找工作,求职,面试,应聘,跳槽,高薪,兼职,猎头,薪酬,薪资,培训,测评,人事,实习">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>北京简单科技有限公司_职位搜索_智联招聘</title>
+<script language="javascript" src="http://special.zhaopin.com/dsc/ad/jquery-1.3.2.min.js"></script>
+<script language="javascript" src="http://special.zhaopin.com/design/js/js_library.js"></script>
+<SCRIPT language=JavaScript>
+function CHKcontact1(address,postalcode,linkman,tel,fax,email,website,email2,map){
+	var ContactHTML = "";
+	if (address != "") {
+		ContactHTML = ContactHTML + "<strong>公司地址：<\/strong>" + address + "<br \/>";
+	}
+	if (map != "") {
+		ContactHTML = ContactHTML + "<strong>地　　图：<\/strong>" + fnShowMapPE(map) + "<br \/>";
+	}
+	if (postalcode != "") {
+		ContactHTML = ContactHTML + "<strong>邮政编码：<\/strong>" + postalcode + "<br \/>";
+	}
+	if (linkman != "") {
+		ContactHTML = ContactHTML + "<strong>联 系 人：<\/strong>" + linkman + "<br \/>";
+	}
+	if (tel != "" && tel != "--") {
+		ContactHTML = ContactHTML + "<strong>电　　话：<\/strong>" + tel + "<br \/>";
+	}
+	if (fax != "") {
+		ContactHTML = ContactHTML + "<strong>传　　真：<\/strong>" + fax + "<br \/>";
+	}
+	if (email != "") {
+		ContactHTML = ContactHTML + "<strong>电子邮件：<\/strong><a href=mailto:" + email + ">" + email + "</a>";
+	}
+	if (email2 != "") {
+		ContactHTML = ContactHTML + " <a href=mailto:" + email2 + ">" + email2 + "</a>";
+	}
+	if (email != "" || email2 != "") {
+		ContactHTML = ContactHTML + "<br \/>";
+	}
+	if (website != "" && website != "http://") {
+		var http;
+		if (website.toLowerCase().search("http://")>=0) {
+			http = "";
+		}else{
+			http = "http://";
+		}
+			ContactHTML = ContactHTML + "<strong>公司主页：<\/strong><a href=" + http + website + " target=_blank>" + website + "</a><br \/>";
+	}
+	document.getElementById("contact").innerHTML = ContactHTML;
+	if (ContactHTML == "") {
+		document.getElementById("contact").style.display = "none";
+		document.getElementById("contact_title").style.display = "none";
+	}
+}
+function CHKcontact0(str){
+	/*document.getElementById("contact").innerHTML = str;*/
+	$("#contact").html(str);
+	if (str == "") {
+		document.getElementById("contact").style.display = "none";
+		document.getElementById("contact_title").style.display = "none";
+	}
+}
+function CHKcontact2(){
+	document.getElementById("contact").style.display = "none";
+	document.getElementById("contact_title").style.display = "none";
+}
+function isvip(n){
+	var tisvip = "";
+	if (n==1){
+		tisvip = ' <img src="http://my.zhaopin.com/images/vip.gif" align="absmiddle" border="0">';
+	}
+	if (n==3){
+		tisvip = ' <img src="http://myimg.zhaopin.com/images/jp.gif" align="absmiddle" border="0">';
+	}
+	return tisvip;
+}
+function ishot(jobcode){
+	var ishot = "";
+	if (HotJobs.search(","+jobcode+",")>=0) {
+		ishot = ' <img src="http://images.zhaopin.com/img_button/hot.gif" align="absmiddle" border="0">';
+	}
+	return ishot;
+}
+Array.prototype.SortBy = function(n,type,str){ 
+	switch (type){ 
+			case 0:this.sort(); break;
+			case 1:this.sort(function(a,b){
+				var na = str.indexOf(a[n]);
+				var nb = str.indexOf(b[n]);
+				if (na==-1) {
+					if (nb==-1) {
+						return 0;
+					}else{
+						return 1;
+					}
+				}else{
+					if (nb==-1) {
+						return -1;
+					}else{
+					}
+				}
+				if (na>nb) {
+					return 1;
+				}else if (na<nb) {
+					return -1;
+				}else{
+					return 0;
+				}
+			}); break;
+			case 2:this.sort(function(a,b){
+				var na = date2num(a[n]);
+				var nb = date2num(b[n]);
+				if (na>nb) {
+					return -1;
+				}else if (na<nb) {
+					return 1;
+				}else{
+					return 0;
+				}
+			}); break;
+			case 3:this.sort(function(a,b){
+				var la = a[n].length;
+				var lb = b[n].length;
+				var l = Math.min(la,lb);
+				for(var i=0;i<l;i++){
+					var pa = str.indexOf(a[n].substr(i,1).toUpperCase());
+					var pb = str.indexOf(b[n].substr(i,1).toUpperCase());
+					if (pa==-1) {
+						if (pb==-1) {
+							return 0;
+						}else{
+							return 1;
+						}
+					}else{
+						if (pb==-1) {
+							return -1;
+						}else{
+						}
+					}
+					if(pa>pb){
+						return 1;
+					}else if(pa<pb){
+						return -1;
+					}
+				}
+				return 0;
+			}); break;
+			case 9:this.sort(function(){ return Math.random()>0.5?-1:1; }); break;
+			default:this.sort();
+	}
+} ;
+function date2num(date){
+	var isok = true;
+	if (date=="空"){
+		return 0;
+	}else{
+		var arrtemp = date.split("-");
+		var t1 = arrtemp[0];
+		var t2 = arrtemp[1];
+		if (t2.length==1) {
+			t2 = "0" + t2;
+		}
+		var t3 = arrtemp[2];
+		if (t3.length==1) {
+			t3 = "0" + t3;
+		}
+		return t1 + t2 + t3;
+	}
+} 
+function QueryString(strName) { 
+	var NowName, NowValue, i; 
+	NowValue = "";
+	var strQS = location.href; 
+	var numQS = strQS.indexOf("?"); 
+	strQS = strQS.substr(numQS+1); 
+	var arrtmp = strQS.split("&"); 
+	for(var i=0; i < arrtmp.length; i++){ 
+		numQS = arrtmp[i].indexOf("="); 
+		if(numQS>0){ 
+			NowName = arrtmp[i].substring(0,numQS); 
+			if (strName==NowName) {
+				NowValue = arrtmp[i].substr(numQS+1); 
+				return NowValue;
+				break;
+			}
+		} 
+	} 
+	return "";
+}
+</SCRIPT>
+<SCRIPT language=JavaScript>
+var arrJobList = 
+[
+["高级前端工程师(js开发)","http://jobs.zhaopin.com/147164943250563.htm?ssidkey=y&ff=02&ss=101","北京","530","软件/互联网开发/系统集成","160000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250563000"],["php开发工程师(接受应届生)","http://jobs.zhaopin.com/147164943250562.htm?ssidkey=y&ff=02&ss=101","北京","530","软件/互联网开发/系统集成","160000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250562000"],["课程顾问（销售类，月薪6000-15000，提供意向资源，地点西二旗）","http://jobs.zhaopin.com/147164943250696.htm?ssidkey=y&ff=02&ss=101","北京","530","咨询/顾问/调研/数据分析","2140000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250696000"],["C++开发工程师（pc端，接受应届生）","http://jobs.zhaopin.com/147164943250785.htm?ssidkey=y&ff=02&ss=101","北京","530","软件/互联网开发/系统集成","160000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250785000"],["高级人事专员（偏企业文化方向）","http://jobs.zhaopin.com/147164943250700.htm?ssidkey=y&ff=02&ss=101","北京","530","人力资源","5002000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250700000"],["管理培训生（渠道区域经理方向）","http://jobs.zhaopin.com/147164943250452.htm?ssidkey=y&ff=02&ss=101","北京","530","销售管理","7001000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250452000"],["营销管理培训生（课程顾问方向）","http://jobs.zhaopin.com/147164943250084.htm?ssidkey=y&ff=02&ss=101","北京","530","销售业务","4010200","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250084000"],["咨询客服（欢迎优秀应届毕业生）","http://jobs.zhaopin.com/147164943250080.htm?ssidkey=y&ff=02&ss=101","北京","530","客服/售前/售后技术支持","4000000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250080000"],["班主任","http://jobs.zhaopin.com/147164943250128.htm?ssidkey=y&ff=02&ss=101","北京","530","教育/培训","2090000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250128000"],["数据库管理员","http://jobs.zhaopin.com/147164943250208.htm?ssidkey=y&ff=02&ss=101","北京","530","IT运维/技术支持","200500","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250208000"],["管理培训生（校区营销主任方向）","http://jobs.zhaopin.com/147164943250200.htm?ssidkey=y&ff=02&ss=101","北京","530","销售管理","7001000","北京简单科技有限公司","14716494","2015-12-12","0","CC147164943J90250200000"],["网站产品经理","http://jobs.zhaopin.com/147164943250679.htm?ssidkey=y&ff=02&ss=101","北京","530","互联网产品/运营管理","160200","北京简单科技有限公司","14716494","2015-12-11","0","CC147164943J90250679000"],
+["空","空","空","空","空","空","空","空","空","空","空"]
+];
+var HotJobs = ",,";
+var ShowDeptInfo = ",,";
+var ShowJobInfo = ",,";
+function BuildJlist(){
+	var SHTML,EHTML,JobHTML;
+	SHTML = "<table width=\"100%\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">";
+	EHTML = "</table>";
+	JobHTML = "<tr>";
+	var numJob = 0;
+	for (var i = 0; i <= arrJobList.length-2; i++){
+		if ( ((ShowJobInfo==",,")?true:(ShowJobInfo.search(arrJobList[i][10])>=0)) && ((ShowDeptInfo==",,")?true:(ShowDeptInfo.search(arrJobList[i][7])>=0)) ) {
+			JobHTML = JobHTML + "<td width=\"100%\"><table width=\"94%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"table-layout:fixed;border-collapse:collapse;\"><tr><td class=\"jobclass\" style=\"overflow:hidden;text-overflow:ellipsis;\" title=\""+""+"　"+arrJobList[i][0]+"　"+""+"\"><nobr>&gt;&gt; "+""+"<a href=\""+arrJobList[i][1]+"\" target=\"_blank\">"+arrJobList[i][0]+"</a> "+""+isvip(arrJobList[i][9])+ishot(arrJobList[i][10])+"<\/td><\/tr><\/table><\/td>";
+			numJob++;
+			if (numJob%1==0){
+				JobHTML = JobHTML + "<\/tr>";
+			}
+		}
+	}
+	if(numJob%1!=0){
+		JobHTML = JobHTML + "<\/tr>";
+	}
+	JobHTML = SHTML + JobHTML + EHTML;
+	document.getElementById("joblist").innerHTML = JobHTML;
+}
+</SCRIPT>
+<link href="http://spimg.zhaopin.com/pageeasy/images/56/style.css" rel="stylesheet" type="text/css" />
+<!--template.mycss-->
+<script type="text/javascript">
+if(typeof(window['flagZhaopinAnalytics'])=='undefined'||!window['flagZhaopinAnalytics']){
+        var _dyweq = _dyweq || [];
+        _dyweq.push(['_setAccount',window['acc4zpAnalytics']||'log000001']);
+        _dyweq.push(['_setDomainName',window['dom4zpAnalytics']||'.zhaopin.com']);
+        if(window['url4zpAnalytics']) _dyweq.push(['_trackPageview',url4zpAnalytics]);
+        else _dyweq.push(['_trackPageview']);
+        (function(){
+               var dywe = document.createElement('script'); dywe.type = 'text/javascript'; dywe.async = true;
+                dywe.src = 'http://my.zhaopin.com/js/dywe.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(dywe, s);
+        })()
+}
+function recordOutboundLink(link, category, action) {
+  function ed(d,a){
+        var c=encodeURIComponent;
+        return c instanceof Function?(a?encodeURI(d):c(d)):escape(d);
+  }
+  try{
+    _dywet._getTrackerByName()._trackEvent(category, action);
+        try{
+               _gat._getTrackerByName()._trackEvent(category, action);
+        }catch(err){}
+        if(link.target=="_blank") setTimeout('window.open("'+link.href+'")', 100);
+    else setTimeout('document.location = "' + link.href + '"', 100);
+  }catch(err){
+        var i=new Image(1,1);
+        var e=document.location;
+    i.src="http://l.zhaopin.com/track_err.gif?dywee=5("+category+"*"+action+")&dywehn="+ed(e.hostname)+"&dywep="+ed(e.pathname+e.search,true);
+  }
+}
+if (typeof(jQuery) == 'undefined') 
+{document.write("<script type=\"text/javascript\" src=\"http://special.zhaopin.com/dsc/ad/jquery-1.3.2.min.js\"><\/script>");}
+var _special_20150830_settimeout;_special_20150830_settimeout = setInterval(function(){if(typeof(jQuery) != 'undefined'){$("a[href*='http://jobs.zhaopin.com']").bind("click",function(){var _pro_20150830_params = "ssidkey=y&ff=02&ss=101";if($(this).attr("href").indexOf("?") > 0){if($(this).attr("href").indexOf(_pro_20150830_params) < 0){$(this).attr("href",$(this).attr("href")+'&'+_pro_20150830_params)}}else{$(this).attr("href",$(this).attr("href")+'?'+_pro_20150830_params)}});clearInterval(_special_20150830_settimeout)}},500)
+</script>
+</head>
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td height="91" valign="middle"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" height="70">
+      <tr>
+        <td width="15%" id="logo"><img src="http://spimg.zhaopin.com/pagepublish/14716494/" height="53" /></td>
+        <td width="15" id="showblank"></td>
+        <td class="companyname" style="padding-left:10px;">北京简单科技有限公司</td>
+      </tr>
+    </table>
+<script language="javascript">
+if(''==''){
+	document.getElementById("logo").style.display = "none";
+	document.getElementById("showblank").style.display = "block";
+}
+</script>
+    </td>
+    <td width="234" rowspan="2" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="33">&nbsp;</td>
+      </tr>
+      <tr>
+        <td background="http://spimg.zhaopin.com/pageeasy/default/image_156.jpg"><img id="banner1" src="http://spimg.zhaopin.com/pageeasy/images/56/banner1_top_0.png" width="234" height="262" alt="" class="pngsupport"/></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="204" valign="top"><img src="http://spimg.zhaopin.com/pageeasy/images/56/index_04.png" alt="" width="566" height="204" border="0" usemap="#Map" /></td>
+  </tr>
+</table>
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td><a name="a1" id="a1"></a><img src="http://spimg.zhaopin.com/pageeasy/images/56/index_14.png" width="800" height="61" alt="" /></td>
+  </tr>
+  <tr>
+    <td><table width="80%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="padding:5px 5px 5px 15px;"><div style="FONT-SIZE: 12px">公司简介</div><div style="FONT-SIZE: 12px"><a href="http://baike.baidu.com/view/1911911.htm">http://baike.baidu.com/view/1911911.htm</a><br />&nbsp;<br />薪酬福利： <br />1、极富竞争力薪酬设计；<br />2、福利体系：<br />(1)五险（养老、失业、工伤、生育、医疗保险）<br />(2)住房公积金;<br />(3)商业补充医疗 <br />(4)定期体检<br />(5)北京市工作居住证（享受与北京户口同等待遇的购房购车政策）<br />(6)节日慰问礼金（品）<br />(7)结婚礼金<br />(8)全年5天全薪病假；<br />(9)国家规定的带薪年假<br />3、简单向上的企业文化氛围：让您尽快融入一支尽心、有爱心、创新型的团队；<br />4、良好的培训体系：提供从入职、工作、干部培养、干部上岗等各环节的培训；<br />5、广阔的发展空间：经历七年高考洗礼的公司正处在一个高速发展的时期，急需包括您在内的各类优秀人才加盟；</div><div style="FONT-SIZE: 12px">&nbsp;</div><div style="FONT-SIZE: 12px">欢迎添加公司招聘微信号<strong>“jd100hr”，</strong>更多就业机会，点亮精彩人生。</div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><a name="a2" id="a2"></a><img src="http://spimg.zhaopin.com/pageeasy/images/56/index_15.png" width="800" height="62" alt="" /></td>
+  </tr>
+  <tr>
+    <td><table width="80%" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td style=" padding:5px 5px 5px 15px;"><SPAN id="joblist"></SPAN></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td><table width="800" border="0" cellspacing="0" cellpadding="0" id="contact_title">
+      <tr>
+        <td><a name="a3" id="a3"></a><img src="http://spimg.zhaopin.com/pageeasy/images/56/index_16.png" width="800" height="68" alt="" /></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="80%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style=" padding:5px 5px 5px 30px;" class="contact" id="contact">&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td><img src="http://spimg.zhaopin.com/pageeasy/images/56/index_13.png" width="800" height="162" alt="" /></td>
+  </tr>
+  <tr>
+    <td height="45">&nbsp;</td>
+  </tr>
+</table>
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td bgcolor="#3399CC" style="padding:3px 3px 3px 35px;color:#FFFFFF;"><a href="http://www.zhaopin.com/" target="_blank" style="color:#FFFFFF;">智联招聘网</a> 版权所有 本网所有招聘信息及作品，未经书面授权不得转载</td>
+    <td align="right" bgcolor="#0099CC" style="padding:3px 35px 3px 3px;"><!--<a href="http://www.zhaopin.com/jobseeker/ps_general.jsp?id=12001997&zppage=yes" target="_blank" style="color:#FFFFFF;">招聘职位标准页面</a>-->&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" height="15"></td>
+  </tr>
+</table>
+<SCRIPT language=JavaScript>BuildJlist();</SCRIPT>
+<!--template.myscript-->
+<script language="javascript">
+if ('1'=='1') {/*是否RD联系方式*/
+	CHKcontact1('北京市海淀区上地东路1号盈创动力大厦E 座502B','','金老师','010-58858113-','010-58858335','hr@jiandan100.cn','www.jiandan100.cn','','');
+}else if ('2'=='1'){
+	CHKcontact2();
+}else{
+	CHKcontact0('{%db.contact_info%}');
+}
+</script>
+<map name="Map" id="Map"><area shape="rect" coords="424,39,563,58" href="#a1" />
+<area shape="rect" coords="431,78,565,98" href="#a2" />
+<area shape="rect" coords="439,117,564,137" href="#a3" />
+</map></body>
+</html>
+<!--http://special.zhaopin.com/pagepublish/14716494/index.html-->
