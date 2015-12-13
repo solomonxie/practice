@@ -1,3 +1,8 @@
+# BeautifulSoup ：一些常用功能的使用和测试
+### 也懒得转Markdown语法了，评论都在代码里了。其中句子后面写着`OK`的，那就说明测试通过，可以正常使用。
+
+
+```python
 # -*- coding: utf-8 -*-
 '''
 	# Author    : Solomon Xie
@@ -97,8 +102,8 @@ def test_BeautifulSoup():
 		标签搜索，如：'input' ,搜索所有标签为input的元素
 		宽泛路径，如：'body a' ,就是body内所有a元素
 		绝对路径，如：'body > div > div > p' ,必须完全符合路径才能搜到
-		ID搜索  ，如：'#tag-1' ,搜索id为tag1的标签
-		混合搜索，如：'div #tag1', 搜索id为xx的div标签
+		ID搜索  ，如：'#tag1' ,搜索id为tag1的标签
+		混合搜索，如：'div #tag1', 搜索id为tag1的div标签
 			'div[class*=newlist_detail] ~ div[class*=newlist_detail]' ,大混合
 		属性存在，如：'a[href]' ,搜索所有存在href属性的a标签
 		类名搜索，如：'[class=clearfix]' ,找到class名等于clearfix的标签
@@ -117,7 +122,7 @@ def test_BeautifulSoup():
 	'''
 	# result = soup.select('dl > p') # OK tag路径搜索
 	# result = soup.select('div[class*=newlist_detail] ~ div') # OK 各种混合搜索
-	# result = soup.select('[class*=zwmc]') # OK 各种混合搜索
+	# result = soup.select('[class*=zwmc]') # OK 
 	con = soup.select('div[class^=newlist_detail]')[0]
 	result = con.select('[class*=zwmc]')
 	# print type(result[0])
@@ -153,3 +158,5 @@ def timeup(func):
 if __name__ == '__main__':
 	timeup(test_BeautifulSoup)
 
+
+```
