@@ -13,7 +13,7 @@
 import urllib2, urllib, re
 from bs4 import BeautifulSoup
 # === 自制工具模块 ===
-from WebspiderToolbox import webPageSourceCode,bsText, urlAnalyse, timeup
+from WebspiderToolbox import webPageSourceCode,bsGet, urlAnalyse, timeup
 
 def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nextUrl=''):
 	'''
@@ -63,7 +63,7 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 	# === BeautifulSoup解析源码,也是最花时间的,解析器不对则会造成7秒/页面 ===
 	soup = BeautifulSoup(webTarget['html'], 'html5lib')
 	# === 获取搜索结果的数量,并进行相应处理 ===
-	total_results = bsText(soup, css='[class$=search_yx_tj] em')
+	total_results = bsGet(soup, css='[class$=search_yx_tj] em')
 	print 'There are %s results found as total.' %total_results
 	if total_results == '0': return '' # 如果当前页面没有结果,则不进行处理了。
 	'''
@@ -73,7 +73,7 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 	print 'The "guid" is %s.' %guid
 	'''
 	# === 获取真实页码 ===
-	truePage = bsText(soup, css='[class*="pagesDown"] a[class*="current"]')
+	truePage = bsGet(soup, css='[class*="pagesDown"] a[class*="current"]')
 	truePage = int(truePage) if truePage else 1 # 如果结果少于1页,则不会有任何结果
 	# === 获取下一页链接 ===
 	try: nextUrl = soup.select('a[class*=next-page]')[0]['href']
@@ -85,26 +85,26 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 		data = []
 		for row in records:
 			data += [ '[BEGIN]',
-				bsText(row, css='[class$=zwmc]'),  # 职位名称
-				bsText(row, css='[class$=gsmc]'),  # 公司名称
-				bsText(row, css='[class$=fk_lv]'), # 反馈比率
-				bsText(row, withTxt='经验：'),     # 工作经验
-				bsText(row, withTxt='学历：'),     # 学历背景
-				bsText(row, withTxt='公司性质：'), # 公司性质
-				bsText(row, withTxt='公司规模：'), # 公司规模
-				bsText(row, withTxt='岗位职责：'), # 岗位职责
-				bsText(row, css='[class$=zwmc] a[href^="http"]', attri='href'), # 招聘网址
-				bsText(row, css='[class$=gsmc] a[href^="http"]', attri='href'), # 企业网址
-				bsText(row, css='[class$=zwyx]', withTxt='职位月薪：'),         # 职位月薪
-				bsText(row, css='[class$=gzdd]', withTxt='地点：'),             # 工作地点
-				bsText(row, css=['[class$=gxsj]', 'dl p']),                     # 更新时间
+				bsGet(row, css='[class$=zwmc]'),  # 职位名称
+				bsGet(row, css='[class$=gsmc]'),  # 公司名称
+				bsGet(row, css='[class$=fk_lv]'), # 反馈比率
+				bsGet(row, withTxt='经验：'),     # 工作经验
+				bsGet(row, withTxt='学历：'),     # 学历背景
+				bsGet(row, withTxt='公司性质：'), # 公司性质
+				bsGet(row, withTxt='公司规模：'), # 公司规模
+				bsGet(row, withTxt='岗位职责：'), # 岗位职责
+				bsGet(row, css='[class$=zwmc] a[href^="http"]', attri='href'), # 招聘网址
+				bsGet(row, css='[class$=gsmc] a[href^="http"]', attri='href'), # 企业网址
+				bsGet(row, css='[class$=zwyx]', withTxt='职位月薪：'),         # 职位月薪
+				bsGet(row, css='[class$=gzdd]', withTxt='地点：'),             # 工作地点
+				bsGet(row, css=['[class$=gxsj]', 'dl p']),                     # 更新时间
 			'\n[END]======================\n']
 			'''	
 			# === 子链接抓取：新式方案 ===
 			# 不在这里进行解析以免一个地方出错导致全程失败,
 			# 应当先获取全部搜索结果,再本函数外对本次获取的子链接进行抓取。
 				# === 跳转并解析职位信息页面 ===
-				# jobUrl = bsText(row,css='[class$=zwmc] a[href^="http"]', attri='href')
+				# jobUrl = bsGet(row,css='[class$=zwmc] a[href^="http"]', attri='href')
 				# if jobUrl : ZhilianJobPage(jobUrl)
 				# else      : print 'Failed on retrieving URL of the job: %s' %data[0]
 				# === 跳转并解析企业信息页面 ===
@@ -152,17 +152,17 @@ def ZhilianJobPage(detailUrl=''):
 	# === BeautifulSoup解析源码,也是最花时间的,解析器不对则会造成7秒/页面 ===
 	soup = BeautifulSoup(webTarget['html'], 'html5lib')
 	# === 获取职位头信息 ===
-	posi    = bsText(soup, css='[class*=inner-left] h1')
-	firm    = bsText(soup, css='[class*=inner-left] h2')
-	welfare = bsText(soup, css='[class*=welfare-tab-box]')
-	descri  = bsText(soup, css='[class*=tab-inner-cont]', more=True) # 正常有2项结果。1.职位描述 2.企业简介
+	posi    = bsGet(soup, css='[class*=inner-left] h1')
+	firm    = bsGet(soup, css='[class*=inner-left] h2')
+	welfare = bsGet(soup, css='[class*=welfare-tab-box]')
+	descri  = bsGet(soup, css='[class*=tab-inner-cont]', more=True) # 正常有2项结果。1.职位描述 2.企业简介
 	data = [posi, firm, welfare, descri[0], descri[1]]
 	# === 获取职位基本信息的框架 ===
-	resu = bsText(soup, css='[class*=terminal-ul] li strong')
+	resu = bsGet(soup, css='[class*=terminal-ul] li strong')
 	# ^这个框架中的数据list顺序为：职位月薪->工作地点->发布日期->工作性质->工作经验->最低学历->招聘人数->职位类别
 	data += resu # 合并两个列表
 	# === 获取企业基本信息的框架 ===
-	resu = bsText(soup, css='[class*=terminal-company] li strong')
+	resu = bsGet(soup, css='[class*=terminal-company] li strong')
 	# ^这个框架中的数据list顺序为：公司规模->公司性质->公司行业->公司主页->公司地址
 	data += resu # 合并两个列表
 	outname = './data/%s.txt' % urllib.quote(detailUrl).split('/')[-1]
