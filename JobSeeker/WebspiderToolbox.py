@@ -15,7 +15,7 @@ def bsText_multi(tag, css=[], withTxt=[], attri=[]):
 
 def bsText(tag, css='', withTxt='', withKey='', attri='', more=False):
 	'''
-	# Function : 根据搜索条件,返回搜索结果的字符串(Unicode格式！)
+	# Function : 根据搜索条件,返回搜索结果的字符串(Unicode格式！！)
 	# Params   : tag=BeautifulSoup返回的Tag对象,pattr=搜索条件,whole=是否返回所有结果,attri=是否搜索属性,multi=是否多条件查找
 	# Steps    : 如果pattr是str字符串,则用select选择器搜索结果
 				 如果pattr是dict 字典,则用find_all()搜索结果

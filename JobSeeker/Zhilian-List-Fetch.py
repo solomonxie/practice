@@ -98,7 +98,7 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 				bsGet(row, css='[class$=zwyx]', withTxt='职位月薪：'),         # 职位月薪
 				bsGet(row, css='[class$=gzdd]', withTxt='地点：'),             # 工作地点
 				bsGet(row, css=['[class$=gxsj]', 'dl p']),                     # 更新时间
-			'\n[END]======================\n']
+			'\n[END]=======================================================\n']
 			'''	
 			# === 子链接抓取：新式方案 ===
 			# 不在这里进行解析以免一个地方出错导致全程失败,
