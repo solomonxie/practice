@@ -10,10 +10,7 @@
 import urllib2, urllib, re
 from bs4 import BeautifulSoup
 
-def bsText_multi(tag, css=[], withTxt=[], attri=[]):
-	pass
-
-def bsText(tag, css='', withTxt='', withKey='', attri='', more=False):
+def bsGet(tag, css='', withTxt='', withKey='', attri='', more=False):
 	'''
 	# Function : 根据搜索条件,返回搜索结果的字符串(Unicode格式！！)
 	# Params   : tag=BeautifulSoup返回的Tag对象,pattr=搜索条件,whole=是否返回所有结果,attri=是否搜索属性,multi=是否多条件查找
@@ -31,17 +28,6 @@ def bsText(tag, css='', withTxt='', withKey='', attri='', more=False):
 				 8.本函数如果有多个结果，则返回列表；如果只有一个结果，返回字符串；如果没有结果返回空字符串。
 				 9.如果有attri参数，则返回所有结果Tag的属性值；如果没有，则返回所有结果Tag的文本内容。
 	'''
-	# ============ Start -> 测试块 ================
-	# src = open('./Templates/test-Zhilian-list-page-sm0.html', 'r')
-	# # src = urllib.urlopen('http://sou.zhaopin.com/jobs/searchresult.ashx')
-	# html_doc = unicode(src.read(),'utf-8')
-	# soup = BeautifulSoup(html_doc, 'html5lib')
-	# tag     = soup.select('[class$=newlist]')[2]
-	# css     = 'dl p' # ['[class$=zwmc]', '[class$=gsmc]']
-	# withTxt = '' # ['公司性质：', '岗位职责：']
-	# withKey = ''
-	# attri   = '' # 'target' # 'class'
-	# ============ End   -> 测试块  ==============
 	retr = [] # 待返回的列表对象
 	# 不管css和withTxt是列表、字符、空，统一化为列表进行循环，方便处理
 	for c in css if isinstance(css, list) else [css]: 
@@ -70,6 +56,16 @@ def bsText(tag, css='', withTxt='', withKey='', attri='', more=False):
 	if not retr : return ''
 	return retr[0] if not more else retr
 
+def TEST_bsGet():
+	# ============ Start -> 测试块 ================
+	src = open('./Templates/test-Zhilian-list-page-sm0.html', 'r')
+	# src = urllib.urlopen('http://sou.zhaopin.com/jobs/searchresult.ashx')
+	html_doc = unicode(src.read(),'utf-8')
+	soup = BeautifulSoup(html_doc, 'html5lib')
+	tags = soup.select('[class$=newlist]')
+	# Call the target function as test --------------->>>>>>>>>>>>>>
+	obj = bsGet(tags[2], css='', withTxt=['[class$=newlist]','dl p'], withKey='公司性质：', attri='class')
+	# ============ End   -> 测试块  ==============
 
 def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 	'''	
@@ -140,4 +136,4 @@ def urlAnalyse(url=''):
 
 # ===============================================================================================
 if __name__ == '__main__':
-	bsText('')
+	TEST_bsGet()

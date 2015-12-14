@@ -26,7 +26,7 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 	# === 编制URL参数 ===
 	urlParams = {
 		'kw' : keyword, # 搜索关键词
-		'sm' : 1, # 显示方式代码： 列表是'0',详细是'1'。显示不同源码也不同,尽量选列表模式,源码更好解析。
+		'sm' : 0, # 显示方式代码： 列表是'0',详细是'1'。显示不同源码也不同,尽量选列表模式,源码更好解析。
 		'jl' : '北京', # 搜索城市：'北京',多项用'+'连接(URL编码为%2B)
 		#'bj' : '', # 职位类别代码：互联网产品/运营管理 的代码为 '160200',多项用'%3B'连接(URL编码的%)
 		#'in' : '', # 行业代码：多项用';'连接(URL编码为%3B)
@@ -202,6 +202,6 @@ def ZhilianFirmPage(firmUrl=''):
 
 # ===============================================================================================
 if __name__ == '__main__':
-	timeup(ZhilianSearchList, '数据', 1, 1) # 在线解析3秒,本地解析2秒
+	timeup(ZhilianSearchList, '数据', 1, 90) # 在线解析3秒,本地解析2秒
 	# ZhilianJobPage('')
 	# ZhilianFirmPage('http://special.zhaopin.com/pagepublish/25244851/index.html')
