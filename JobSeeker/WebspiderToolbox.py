@@ -81,11 +81,19 @@ def TEST_bsGet():
 	print 'Multi-Search feedback an unicode string: ',type(mu) == type(u'')
 	# ============ End   -> 测试块  ==============
 
-def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
+def webPageSourceCode(baseUrl='', local=False, urlParams={}, method='GET', antiRobot={}):
 	'''	
 	# Function: 抽象出来模块化的网页源码获取函数：传入网址及必要信息,返回源码等相关信息
 	# Params  : baseUrl=准备抓取的网址,method=GET | POST,urlParams=URL中的参数,antiRobot=爬虫伪装方式
 	'''
+	# === 本地方式读取源码 ===
+	if local:
+		with open(baseUrl, 'r') as src:
+			print 'Processing Url: %s' %baseUrl
+			html_doc = unicode(src.read(),'utf-8')
+			return {'html':html_doc,'fullUrl':'','trueUrl':''}
+
+	# === 在线读取源码 ===
 	headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'}
 	# === Post方式获取源码 ===
 	# req = urllib2.Request(baseUrl, urllib.urlencode(urlParams), headers)
@@ -98,9 +106,10 @@ def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 	try: 
 		src = urllib2.urlopen(fullUrl)
 		trueUrl = src.geturl() # 获取真实Url网址
+		# === [本地测试] ===
+		# src = open('./Templates/58Job-list-no-records-page.html', 'r') # 测试用,0.001秒
+		# trueUrl = 'localhost.' # 测试用
 		# print 'Processing Url: %s' %fullUrl # 测试用。显示正在处理的网页
-		# === 本地方式读取源码 ===
-		# src = open('./Templates/test-Zhilian-list-page-sm0.html', 'r') # 测试用,0.001秒
 		html_doc = unicode(src.read(),'utf-8') # 用时1秒。
 		print 'Succeeded loading this web page.'
 		# === 函数返回网页源码,及必要信息 ===
@@ -110,7 +119,10 @@ def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 		print e
 		return {'html':'','fullUrl':'','trueUrl':''}
 def TEST_webPageSourceCode():
-	pass
+	webTarget = webPageSourceCode('http://bj.58.com/job/pn12/?key=%E6%95%B0%E6%8D%AE&cmcskey=%E6%95%B0%E6%8D%AE&final=1&specialtype=gls&canclequery=isbiz%3D0&PGTID=0d302408-0000-17bd-7c0f-d5f89cf17696&ClickID=1')
+	soup = BeautifulSoup(webTarget['html'], 'html5lib')
+	with open('t.html', 'w') as f:
+		f.write(soup.prettify('utf-8'))
 
 def txtLog(data, filename=''):
 	'''
@@ -119,16 +131,6 @@ def txtLog(data, filename=''):
 	output = '\n'.join(data).encode('utf-8')
 	with open(filename, 'w') as f:
 		f.write(output)
-
-# 计算时间
-def timeup(foo, attr1, attr2, attr3):
-	import time
-	start = time.clock()
-	val = foo(attr1, attr2, attr3)
-	end = time.clock()
-	timeuse = end-start
-	print '=== Spend %d sec. on running %s()\n' %(timeuse, foo.__name__)
-	return val
 
 def urlAnalyse(url=''):
 	'''
@@ -156,6 +158,24 @@ def urlAnalyse(url=''):
 					])     # 参数值,字典形式。如{['key':'关键词','city':'北京']}
 	}
 
+def ask(hello='', tp=str, ori=False):
+	if not hello: 
+		print 'No question no answer.'
+		return ''
+	hello  = hello if ori else 'Please tell me about this ["%s"] to continue:\n' %hello
+	answer = raw_input(hello)
+	return tp(answer)
+
+# 计算时间
+def timeup(foo=''):
+	if not foo: return ''
+	import time
+	tm = -1
+	start = time.clock()
+	eval(foo)
+	end = time.clock()
+	tm = end-start
+	print '=== Spend %d sec. on running %s()\n' %(tm, foo.__name__)
 
 
 # ===============================================================================================

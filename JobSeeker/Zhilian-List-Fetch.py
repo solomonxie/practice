@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-	# Title : 智联招聘信息爬虫 - 搜索列表部分
+	# Title : 智联招聘信息爬虫 - 搜索列表页、职位详细页、企业主页
 	# Author: Solomon Xie
 	# Usage : A practise with python: 
 				get job information from a chinese job seeking web Zhilian.com.
@@ -83,7 +83,7 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 	blocks = soup.select('[class$=newlist]')
 	print '=== Detected %d Job Information in this page.' %len(blocks)
 	if len(blocks):
-		titles = 'jobName,cmpName,feedback,workingAge,eduReq,cmpType,cmpSize,jobDescri,jobLink,cmpLink,jobPay,cmpLoc,jobUpdate'
+		titles = 'jobName,cmpName,feedback,workingAge,eduReq,cmpType,cmpSize,jobDescri,jobLink,cmpLink,payMonthly,cmpLoc,jobUpdate'
 		values = []
 		for row in blocks:
 			values.append([
@@ -211,6 +211,6 @@ def ZhilianFirmPage(firmUrl=''):
 
 # ===============================================================================================
 if __name__ == '__main__':
-	timeup(ZhilianSearchList, '数据', 1, 1) # 在线解析3秒,本地解析2秒
+	timeup(ZhilianSearchList, '数据', 1, 1) # 在线解析3秒,本地解析2秒	
 	# ZhilianJobPage('')
 	# ZhilianFirmPage('http://special.zhaopin.com/pagepublish/25244851/index.html')

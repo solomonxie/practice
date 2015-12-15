@@ -1,0 +1,11 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("道理中央大街KTV娱乐城","http://qy.58.com/22486202/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("黑河市世纪天漠海电脑网络有限责任公司","http://qy.58.com/27340510/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("北安市喜丽健康养生会馆","http://qy.58.com/13995438850311/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("西建院兵器工业学院","http://qy.58.com/28440225/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("网络公司","http://qy.58.com/39225752/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("个人","http://qy.58.com/31766431/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("个人","http://qy.58.com/28864856/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("黑龙江黑河北安市天麒设计公司","http://qy.58.com/28541173/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("个人","http://qy.58.com/26131772/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("北京西南证券有限公司","http://qy.58.com/25368724/","黑河","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("迈克斯家政服务中心","http://qy.58.com/5142527062278/","黑河","");

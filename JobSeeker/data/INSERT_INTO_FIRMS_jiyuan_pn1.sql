@@ -1,0 +1,15 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("济源市小儿郎家政服务有限公司","http://qy.58.com/29647013/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("济源昊煜计算机技术有限公司","http://qy.58.com/14303909124870/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("济源智邦营销策划有限公司","http://qy.58.com/34140338/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("北京程顺置地房地产经纪有限公司","http://qy.58.com/30626527/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("明道新越小语种教育","http://qy.58.com/35716149/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("南街商贸老李米行","http://qy.58.com/33310133/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("托老中心","http://qy.58.com/29733382/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("西安汉诺门窗","http://qy.58.com/40594850/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("河南昊宇建设工程有限公司","http://qy.58.com/51618184/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("济源市绿洲实业有限公司","http://qy.58.com/42163746/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("搜狐公司","http://qy.58.com/39564376/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("COSOHO联盟","http://qy.58.com/39197153/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("比格宠物医院","http://qy.58.com/25844932/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("青海劲力达工程机械有限公司","http://qy.58.com/26175720/","济源","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("河南黄河小偃麦业科技有限公司","http://qy.58.com/14585030457350/","济源","");

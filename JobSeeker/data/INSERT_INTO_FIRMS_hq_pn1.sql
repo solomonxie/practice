@@ -1,0 +1,2 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("临沂金锣肉制品集团","http://qy.58.com/36539937/","霍邱","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("电动车配件","http://qy.58.com/36797663/","霍邱","");

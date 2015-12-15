@@ -1,0 +1,10 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("百威英博集团大中国区","http://qy.58.com/34970053/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("河北强久自行车进出口公司","http://qy.58.com/35516046/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("新区电子长","http://qy.58.com/40417781/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("大连黛芙妮尔五行驻颜美容院","http://qy.58.com/40351344/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("电脑公司","http://qy.58.com/39730958/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("长白县十四道沟利民养殖场","http://qy.58.com/36594295/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("白山迅雷调查事务所","http://qy.58.com/25741669/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("上海众奇文化传播有限公司","http://qy.58.com/25542564/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("美伦美国际家具有限公司","http://qy.58.com/24162464/","白山","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("吉林省长白山吉盛食品有限公司","http://qy.58.com/8795915900678/","白山","");

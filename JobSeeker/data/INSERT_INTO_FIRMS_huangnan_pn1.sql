@@ -1,0 +1,1 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("纳斯达克外语学校","http://qy.58.com/35207140/","黄南","");

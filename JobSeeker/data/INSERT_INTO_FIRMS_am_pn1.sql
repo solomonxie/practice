@@ -1,0 +1,12 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("北京正时同泰","http://qy.58.com/25206806/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("噶噶公司","http://qy.58.com/43610930/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("九江雅帘坊","http://qy.58.com/42571714/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("广州市钰涵纸业有限公司","http://qy.58.com/41640046/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("河北阳光教育集团","http://qy.58.com/41177628/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("奥图电器厨柜","http://qy.58.com/36879007/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("豆浆","http://qy.58.com/35354804/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("澳门娱乐葡京大酒店","http://qy.58.com/33956830/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("惠州新通泰信用担保有限公司","http://qy.58.com/28293982/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("yanjianzhong21","http://qy.58.com/27116538/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("上海雁柏文化传播有限公司","http://qy.58.com/25060691/","澳门","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("网游公司","http://qy.58.com/23193814/","澳门","");

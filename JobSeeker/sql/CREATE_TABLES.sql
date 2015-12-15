@@ -2,12 +2,15 @@ USE JobSeeker;
 
 CREATE TABLE FIRMS (
 	cmpID INT NOT NULL AUTO_INCREMENT,
-	cmpID_Zhilian   VARCHAR(255),   -- 企业ID（智联内部ID）
-	cmpName         VARCHAR(255),   -- 企业名称
-	cmpStandardLink VARCHAR(2048),  -- 企业标准主页URL
-	cmpSpecialLink  VARCHAR(2048),  -- 企业Special主页URL
-	cmpDescri       TEXT,           -- 企业简介
-	cmpLoc          VARCHAR(255),   -- 企业地址
+	cmpID_Zhilian       VARCHAR(255),   -- 企业ID（智联内部ID）
+	cmpName             VARCHAR(255),   -- 企业名称
+	cmpLink_Zhilian     VARCHAR(2048),  -- 智联招聘企业标准主页URL
+	cmpLink_Zhilian_vip VARCHAR(2048),  -- 智联招聘企业Special主页URL
+	cmpLink_58          VARCHAR(2048),  -- 58同城企业主页URL
+	cmpLink_58_Credit   VARCHAR(2048),  -- 58同城企业信用档案链接
+	cmpDescri           TEXT,           -- 企业简介
+	cmpLoc              VARCHAR(255),   -- 企业地址
+	cmpCity             VARCHAR(255),   -- 企业所在城市
 	PRIMARY KEY ( cmpID )
 );
 
@@ -19,7 +22,7 @@ CREATE TABLE JOBS (
 	welfare    VARCHAR(100),   -- 福利标签
 	jobDescri  TEXT,           -- 职位介绍（应聘条件、岗位职责）
 	cmpDescri  TEXT,           -- 公司简介
-	jobPay     VARCHAR(255),   -- 职位月薪
+	payMonthly     VARCHAR(255),   -- 职位月薪
 	cmpLoc     VARCHAR(255),   -- 企业地址
 	jobUpdate  VARCHAR(255),   -- 更新日期
 	jobType    VARCHAR(255),   -- 就职类型（全职、兼职）

@@ -1,0 +1,319 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>用户中心信用档案</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/usercredit.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/album.css"/>
+
+
+</head>
+<body>
+
+<!--topBar开始-->
+<div class="topBar">
+    <a href="http://bj.58.com" target="_self" id="logo" onclick="clickLog('from=sylogo_bj');"><img
+            src="http://img.58cdn.com.cn/ui6/index/logo.gif" alt="中文最大生活信息门户" title="58同城，让生活更简单" width="188"
+            height="50"></a>
+    <span class="pageTitle">信用档案</span>
+</div>
+<!--topBar结束-->
+<!--content开始-->
+<div class="content">
+    <!--conHead开始-->
+    <div class="conHead">
+        <div class="headLeft">
+            <span class="headTitle">微时代驻（北京）信息技术有限责任公司 </span><i id="vipYear" class="year1"></i>
+                        <div class="credit_grade">
+                           <span class="ico-bzj">
+                          <em>
+                              <a style="color:#32b16c" href="http://apply.vip.58.com/deposit/pcbzj" target="_blank"
+                                 onclick="clickLog('from=credit1');"> 未加入58诚信保障体系 </a>
+                          </em>
+                  </span>
+                <!-- <span class="honesty">未加入50诚信保障体系</span> -->
+            </div>
+                        <div class="verify">
+                <span> <i  class="weChat_yes" ></i><a
+                        class="verify_already">微信认证</a></span>
+                <span> <i  class="idCard_yes" ></i><a
+                        class="verify_already">企业认证</a></span>
+                <span> <i  class="bussiness_yes" ></i><a
+                        class="verify_already">个人认证</a></span>
+                <span> <i  class="mail_no" ></i><a
+                        class="verify_already">邮箱认证</a></span>
+                <span> <i  class="tel_yes" ></i><a
+                        class="verify_already">手机认证</a></span>
+
+            </div>
+
+        </div>
+        <div class="headRight">
+            <span>注册时间：2015-06-24</span>
+                    </div>
+    </div>
+    <!--conHead结束-->
+
+    <!--conMain开始-->
+    <div class="conMain">
+        <div class="nav">
+            <a target="_blank" href="http://passport.58.com/login?path=http://vip.58.com/pro/credit/"
+               onclick="clickLog('from=credit2');">查看我的档案&nbsp;<span class="colorGrey">&gt;</span></a>
+            <ul>
+                                <li >商家介绍</li>
+                                <li class="linked">信用档案</li>
+                                <!-- 经过认证的网邻通添加自传tab页 -->
+                                <li>商家自传资质</li>
+                                            </ul>
+        </div>
+        
+                <!--相册html代码-->
+        <div id="imgLayer" class="imgLayer">&nbsp;</div>
+        <div id="imgContent" class="imgContent">
+            <a class="btnLeft" href="javascript:void(0);">向左</a> <a
+                class="btnRight" href="javascript:void(0);">向右</a>
+
+            <div id="btnClose" class="btnClose">关闭</div>
+            <div class="imgBox">
+                <ul id="imgUl">
+
+                </ul>
+            </div>
+            <div class="imgDetail">
+                第"<span class="num" id="num">0</span>"张图片，共"<span class="all" id="all"></span>"张图片
+            </div>
+        </div>
+
+        <div id="con1" class="con"  style="display: none;" >
+
+            <i class="introIcon"></i><span class="intro">商家介绍</span>
+
+            <div class="briefIntro">
+                <div class="bar">简介</div>
+                <div class="briefIntrotext">微时代广告有限责任公司成立于2014年4月，是一家集微信广告制作策划，网站建设销售，加盟代理网、手机靓号销售及公众平台开发于一身的新型公司！
+在我公司正确带领下，已帮助3000余微友每月开始稳定收益，部分微友已经达到月入万元以上，最努力的微友月收入已经高达数万！</div>
+                <!--相册容器-->
+                <div class="albumBox"></div>
+            </div>
+
+            <div class="album">
+
+                <div class="bar ">  相册
+
+                </div>
+
+                <div class="albumTable">
+                                        <p class="Noresults-bg">该店铺暂时没有图片！</p>
+                                    </div>
+            </div>
+            
+        </div>
+               
+        
+        <!--页面二-->
+	<div id="con2" class="con"  style="display: block;" >
+        <!-- 不是经过认证的网邻通保持不变 -->
+        			<!-- 营业执照基本信息 -->
+            <i class="introIcon"></i><span class="intro">企业营业执照信息</span>
+
+            <!-- 通过第三方认证的显示认证 时间和机构 -->    
+            			
+            <div class="zzxx_ta">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td width="17%" class="tdbg">公司名称</td>
+                        <td width="34%">微时代驻（北京）信息技术有限责任公司 </td>
+                        <td width="15%" class="tdbg">注册号</td>
+                        <td width="34%">110108019156021</td>
+                    </tr>
+                    <tr>
+                        <td class="tdbg">经营地址</td>
+                        <td> 北京市海淀区善缘街1号2层1-128 </td>
+                        <td class="tdbg">注册资本</td>
+                        <td>10 万元</td>
+                    </tr>
+                    <tr>
+                        <td class="tdbg">成立日期</td>
+                        <td>2015-05-22</td>
+                        <td class="tdbg">法定代表人</td>
+                        <td>侯天绥</td>
+                    </tr>
+                    <tr>
+                        <td class="tdbg">登记机关</td>
+                        <td>海淀分局</td>
+                        <td class="tdbg">企业类型</td>
+                        <td>有限责任公司(自然人独资)</td>
+                    </tr>
+                    <tr>
+                        <td class="tdbg">营业期限</td>
+                        <td>2015-05-22至2035-05-21</td>
+                        <td class="tdbg">核准日期</td>
+                        <td>2015-05-22</td>
+                    </tr>
+                    <tr>
+                        <td class="tdbg">登记状态</td>
+                        <td>在营（开业）企业</td>
+                        <td class="tdbg">经营范围</td>
+                        <td> 技术开发、技术咨询、技术服务、技术推广、技术转让；设计、制作、代理、发布广告；企业策划；经济贸易咨询；创意服务；投资咨询；电脑动画设计；软件开发；软件咨询；市场调查。（依法须经批准的项目，经相关部门批准后依批准的内容开展经营活动。）</td>
+                    </tr>
+                    </tbody>
+                    <!-- 通过第三方认证盖章 -->
+                                    </table>
+            </div>
+            <!--zzxx_ta结束-->
+            
+            <!-- 抽查检查信息 -->
+            <i class="introIcon"></i><span class="intro">企业抽查检查信息</span>
+            <div class="zzxx_ta">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <!-- 有抽查检查信息披露 -->
+                                        <tr>
+                        <td colspan=4 width="100%" class="tdbg">企业近期无抽查检查信息</td>
+                    </tr>
+                                        </tbody>
+                </table>
+            </div>
+            <!--zzxx_ta结束-->
+
+			<!-- 经营异常信息 -->
+            <i class="introIcon"></i><span class="intro">经营异常信息</span>
+            <div>
+            <!-- 无经营异常信息提示 -->
+                        <div class="zzxx_ta">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td colspan=4 width="100%" class="tdbg">企业近期无经营异常信息</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--zzxx_ta结束-->
+            
+            <!-- 有经营异常信息披露 -->
+                        </div>
+
+			<!-- 行政处罚信息 -->
+            <i class="introIcon"></i><span class="intro">行政处罚信息</span>
+            <div>
+                        <div class="zzxx_ta">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td colspan=4 width="100%" class="tdbg">企业近期无行政处罚信息</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--zzxx_ta结束-->
+                        </div>
+
+			<!-- 严重违法信息 -->
+            <i class="introIcon"></i><span class="intro">严重违法信息</span>
+            <div>
+                        <div class="zzxx_ta">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td colspan=4 width="100%" class="tdbg">企业近期无严重违法信息</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--zzxx_ta结束-->
+                        </div>
+            <p class="zzxx_beizhu">以上信息均来自于第三方认证机构或全国企业信用信息公示系统，58同城不对其真实性、合法性、准确性负责!</p>
+			
+
+
+            <i class="introIcon"></i><span class="intro">用户信息<span class="orange">（一个月内）</span></span>
+
+            <div class="zzxx_ta">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+
+                    <tr>
+                        <td width="17%" class="tdbg">发帖数量</td>
+                        <td width="34%">10条</td>
+                        <td width="15%" class="tdbg">删除信息数</td>
+                        <td width="34%">0条</td>
+                    </tr>
+                    <tr>
+                        <td class="tdbg">赔付次数</td>
+                        <td colspan="3">0次</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--zzxx_ta结束-->
+                  </div>
+
+
+		<!-- 经过认证的网邻通添加自传tab页 -->
+                <!--页面三-->
+        <div id="con3" class="con" style="display: none;">
+            <i class="introIcon"></i><span class="intro">营业执照</span>
+                                                    <div class="zzxx_piclist">
+                <div class="zzxx_showpic">
+                    <div class="zzxx_showclick">
+                        <img src="/images/chakan.png" class="zzxx_overpic">
+                    </div>
+                    <img src="http://img7.58.com/allflow/images/n_s12831792252486157014.jpg" class="zzxx_pic">
+                </div>
+                
+                <div style="width:98%;clear:both;"></div>
+                </div>
+                                                        <!--zzxx_ta结束-->
+            
+
+           <i class="introIcon"></i><span class="intro">资格证书</span>
+                            <div class="zzxx_piclist">
+                <p class="zzxx_nopic">该商户目前没有该项证书！</p>
+                </div>
+                        <!--zzxx_ta结束-->
+
+             <i class="introIcon"></i><span class="intro">荣誉证书</span>
+                            <div class="zzxx_piclist">
+                <p class="zzxx_nopic">该商户目前没有该项证书！</p>
+                </div>
+                        <!--zzxx_ta结束-->
+        
+            <i class="introIcon"></i><span class="intro">其他证书</span>
+                            <div class="zzxx_piclist">
+                <p class="zzxx_nopic">该商户目前没有该项证书！</p>
+                </div>
+                        <!--zzxx_ta结束-->
+
+            <div class="zzxx_showbigpic">
+                <div class="zzxx_closepicdiv">
+                    <div class="zzxx_closepic"></div>
+                </div>
+                <img alt="big" class="zzxx_bigpic" src="">
+            </div>
+            <!--zzxx_showbigpic-->
+        </div>
+            </div>
+    <!--conMain结束-->
+</div>
+<!--content结束-->
+  <!--申诉框-->
+	<div class="tsss">
+	    <p>信息被冒用？<a href="http://about.58.com/voteProof?voteSource=1&cateCode=580&infoId=22514431481246&from=voteProof1_580&entityId=22514431481246&entityType=3&psid=116344082188819987465090162" target="_blank">点此投诉</a></p>
+	    <p>信息不正确？<a href="http://about.58.com/customerservice.html" target="_blank">点此申诉</a></p>
+	</div>
+<!--申诉框结束-->
+</body>
+</html>
+<script type="text/javascript" src="http://j2.58cdn.com.cn/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="/js/usercredit.js"></script>
+<script type="text/javascript" src="/js/album.js"></script>
+<!--基本统计代码begin-->
+<script type="text/javascript">
+    var _trackURL = "{'cate':'','area':'','pagetype':'credit','page':''}";
+</script>
+<script src="http://tracklog.58.com/referrer4.js"></script>
+<!--基本统计代码end-->

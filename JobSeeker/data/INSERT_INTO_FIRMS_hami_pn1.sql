@@ -1,0 +1,14 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("独立经纪人","http://qy.58.com/34247547/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("新疆银开电力工程有限责任公司","http://qy.58.com/41609020/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("哈尔滨宏图教育咨询有限公司","http://qy.58.com/20957768/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("新疆高德养生健康咨询管理公司哈密市场...","http://qy.58.com/47002832/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("国营企业","http://qy.58.com/38732163/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("哈密澳飞商贸有限责任公司","http://qy.58.com/41405762/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("哈密春天物业管理有限公司","http://qy.58.com/32848468/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("重庆碧月科技发展有限公司","http://qy.58.com/24924342/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("哈密重康机电工程有限公司","http://qy.58.com/49172662/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("新疆雅致","http://qy.58.com/42859981/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("网络信息联盟","http://qy.58.com/39939199/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("保险哈密中心支公司","http://qy.58.com/33619938/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("新疆豫新泰和房地产开发有限公司","http://qy.58.com/29219555/","哈密","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("立兴汽车租赁公司","http://qy.58.com/5124787483399/","哈密","");

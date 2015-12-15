@@ -1,0 +1,14 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("贺州市留意日杂商店","http://qy.58.com/6604980398342/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("朝东春雨幼儿园","http://qy.58.com/41293557/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("麦壳汽车用品有限公司","http://qy.58.com/37805995/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("广西贺州市恒通人力资源有限公司","http://qy.58.com/26641620/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("广州宅急送快运有限公司北海分公司","http://qy.58.com/40878484/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("东方名媛名仕美容美发有限公司","http://qy.58.com/19451152/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("亚联集团佰利葡萄酒项目","http://qy.58.com/18372200/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("四会国兴农现代农业发展有限公司","http://qy.58.com/25966512/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("八度咖啡西餐厅","http://qy.58.com/39460209/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("小鱼木工装修","http://qy.58.com/39414033/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("众人电子商务公司","http://qy.58.com/28339466/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("长沙市国丰房地产策划有限公司","http://qy.58.com/16696114/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("中国通和经济开发中心","http://qy.58.com/14657975421959/","贺州","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("柳州市柳南区康贝多奶制品店","http://qy.58.com/13260640542727/","贺州","");

@@ -1,0 +1,2 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("香格里拉县宏森装饰","http://qy.58.com/14262779970310/","迪庆","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("云南藏地天香酒业有限公司","http://qy.58.com/32873509/","迪庆","");

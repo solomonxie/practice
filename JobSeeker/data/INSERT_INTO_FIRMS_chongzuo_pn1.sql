@@ -1,0 +1,9 @@
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("广西安琪之家康复研究中心","http://qy.58.com/42300153/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("深圳市中联大药房有限公司","http://qy.58.com/42796427/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("凭祥市健生酒店有限公司","http://qy.58.com/18056712/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("广西南宁江山房地产代理有限公司","http://qy.58.com/33407708/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("喜悦网有限责任公司","http://qy.58.com/33116877/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("李先生个体经营吧","http://qy.58.com/30527871/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("广州龙浩置业咨询有限公司","http://qy.58.com/26527704/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("广西崇左市科顺达科技有限公司","http://qy.58.com/25130475/","崇左","");
+INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("川大家教中心","http://qy.58.com/22872230/","崇左","");
