@@ -1,7 +1,3 @@
-# BeautifulSoup ：一些常用功能的使用和测试
-**懒得用Markdown语法了，评论都在代码里了。其中句子后面写着`OK`的，那就说明测试通过，可以正常使用。**
-
-```python
 # -*- coding: utf-8 -*-
 '''
 	# Author    : Solomon Xie
@@ -156,6 +152,3 @@ def timeup(func):
 
 if __name__ == '__main__':
 	timeup(test_BeautifulSoup)
-
-
-```

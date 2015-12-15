@@ -13,7 +13,8 @@
 import urllib2, urllib, re
 from bs4 import BeautifulSoup
 # === 自制工具模块 ===
-from WebspiderToolbox import webPageSourceCode,bsGet, urlAnalyse, timeup
+from WebspiderToolbox import webPageSourceCode,bsGet,txtLog,urlAnalyse,timeup
+from DBProcessor import sqlInsert
 
 def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nextUrl=''):
 	'''
@@ -79,12 +80,13 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 	try: nextUrl = soup.select('a[class*=next-page]')[0]['href']
 	except: print 'No link of next-page found.'
 	# === 获取信息条目 ===
-	records = soup.select('[class$=newlist]')
-	print '=== Detected %d Job Information in this page.' %len(records)
-	if len(records):
-		data = []
-		for row in records:
-			data += [ '[BEGIN]',
+	blocks = soup.select('[class$=newlist]')
+	print '=== Detected %d Job Information in this page.' %len(blocks)
+	if len(blocks):
+		titles = 'jobName,cmpName,feedback,workingAge,eduReq,cmpType,cmpSize,jobDescri,jobLink,cmpLink,jobPay,cmpLoc,jobUpdate'
+		values = []
+		for row in blocks:
+			values.append([
 				bsGet(row, css='[class$=zwmc]'),  # 职位名称
 				bsGet(row, css='[class$=gsmc]'),  # 公司名称
 				bsGet(row, css='[class$=fk_lv]'), # 反馈比率
@@ -98,7 +100,10 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 				bsGet(row, css='[class$=zwyx]', withTxt='职位月薪：'),         # 职位月薪
 				bsGet(row, css='[class$=gzdd]', withTxt='地点：'),             # 工作地点
 				bsGet(row, css=['[class$=gxsj]', 'dl p']),                     # 更新时间
-			'\n[END]=======================================================\n']
+			])
+			# print 'withTxt is an unicode string:',type(values[0][4]) == type(u'') # True
+			# print 'attri is an unicode string:', type(values[0][8]) == type(u'') # True
+			# print 'multi-search got an unicode string:', type(values[0][8]) == type(u'') # True
 			'''	
 			# === 子链接抓取：新式方案 ===
 			# 不在这里进行解析以免一个地方出错导致全程失败,
@@ -106,23 +111,24 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 				# === 跳转并解析职位信息页面 ===
 				# jobUrl = bsGet(row,css='[class$=zwmc] a[href^="http"]', attri='href')
 				# if jobUrl : ZhilianJobPage(jobUrl)
-				# else      : print 'Failed on retrieving URL of the job: %s' %data[0]
+				# else      : print 'Failed on retrieving URL of the job: %s' %values[0]
 				# === 跳转并解析企业信息页面 ===
 				# 方法1
 				# 但是会有问题就是,如果`识别重复`方面没有做好,这里就会形成无限循环。
 				# 可以想到的笨方法就是,先取得所有相关的企业名称和链接,然后再用函数把它读取出来,循环生成。
-				# publicJobs = ZhilianFirmPage(data[-1])
+				# publicJobs = ZhilianFirmPage(values[-1])
 				# print 'This company is recruiting %d jobs now.' %len(publicJobs)
 				# 方法2
 				# 递归本函数,用企业名搜索其下所有招聘信息。
-				# ZhilianSearchList(data[1].encode('utf-8'), 1, scope=3) 
+				# ZhilianSearchList(values[1].encode('utf-8'), 1, scope=3) 
 			'''
-		# 输出结果：暂时用txt文件输出,后面会用到数据库
-		outname = './data/ZhilianSearch-%s-scope%d-p%d.txt' %(soup.title.get_text(), scope, truePage)
-		with open(outname, 'w') as f:
-			txt = ' , '.join(data).encode('utf-8')
-			f.write(txt)
-		print '%sDone of retrieving page %d' %('_'*80, truePage)
+		# 输出结果：MySQL的sql文件输出
+		sqlfile = './data/INSERT_INTO_TEMP_SEARCHRESULTS_ZHILIAN.sql'
+		fback = sqlInsert('TEMP_SEARCHRESULTS_ZHILIAN', titles, values, sqlfile=sqlfile)
+		# print fback
+		# 输出结果：txt文件输出
+		# fback = txtLog(data,'./data/ZhilianSearch-%s-scope%d-p%d.txt' %(soup.title.get_text(), scope, truePage))
+		# print fback
 	'''
 		# === 递归调用函数自身,循环读取下一页 ===
 		# 循环读取每一页的信息
@@ -157,9 +163,9 @@ def ZhilianJobPage(detailUrl=''):
 	welfare = bsGet(soup, css='[class*=welfare-tab-box]')
 	descri  = bsGet(soup, css='[class*=tab-inner-cont]', more=True) # 正常有2项结果。1.职位描述 2.企业简介
 	data = [posi, firm, welfare, descri[0], descri[1]]
-	# === 获取职位基本信息的框架 ===
+	# === 获取职位多项基本信息 ===
 	resu = bsGet(soup, css='[class*=terminal-ul] li strong')
-	# ^这个框架中的数据list顺序为：职位月薪->工作地点->发布日期->工作性质->工作经验->最低学历->招聘人数->职位类别
+	# ^这个框架中的数据list顺序为：职位月薪->工作地点->发布日期->工作性质->工作经验->最低学历->招聘人数->职业类别
 	data += resu # 合并两个列表
 	# === 获取企业基本信息的框架 ===
 	resu = bsGet(soup, css='[class*=terminal-company] li strong')
@@ -187,6 +193,7 @@ def ZhilianFirmPage(firmUrl=''):
 	subDomain = urlAnalyse(firmUrl)['subloc'][0]
 	if subDomain == 'special' :
 		# 如果是"Special页面"则获取其标准页面的URL,并重新加载此函数。
+		# 只能用正则表达式获取`<!-- -->`隐藏标签的内容。
 		finder = re.findall(re.compile(r' href="(.+?)"'), str(soup.select('td[align=right]')))
 		standardUrl = finder[0] if finder else ''
 		if len(standardUrl) : 
@@ -194,6 +201,8 @@ def ZhilianFirmPage(firmUrl=''):
 			ZhilianFirmPage(standardUrl) # 以标准页面重新加载此函
 			return ''		
 	# === 在标准页面中获取该公司所有招聘信息的链接 ===
+	# ===>>> 不过有一点：页面只会显示一个城市的招聘，其他城市的信息则是Javascript动态加载的。
+	# 		 也就是说，还不如直接在搜索主页按照企业名搜索的强。
 	resu = soup.select('[class=positionListContent1] [class*=jobName] a[href]')
 	data = [t['href'] for t in resu ]
 	print 'Done of retrieving %d job links of this company.' %len(resu)
@@ -202,6 +211,6 @@ def ZhilianFirmPage(firmUrl=''):
 
 # ===============================================================================================
 if __name__ == '__main__':
-	timeup(ZhilianSearchList, '数据', 1, 90) # 在线解析3秒,本地解析2秒
+	timeup(ZhilianSearchList, '数据', 1, 1) # 在线解析3秒,本地解析2秒
 	# ZhilianJobPage('')
 	# ZhilianFirmPage('http://special.zhaopin.com/pagepublish/25244851/index.html')

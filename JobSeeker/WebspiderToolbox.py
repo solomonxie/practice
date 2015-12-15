@@ -13,27 +13,27 @@ from bs4 import BeautifulSoup
 def bsGet(tag, css='', withTxt='', withKey='', attri='', more=False):
 	'''
 	# Function : 根据搜索条件,返回搜索结果的字符串(Unicode格式！！)
-	# Params   : tag=BeautifulSoup返回的Tag对象,pattr=搜索条件,whole=是否返回所有结果,attri=是否搜索属性,multi=是否多条件查找
-	# Steps    : 如果pattr是str字符串,则用select选择器搜索结果
-				 如果pattr是dict 字典,则用find_all()搜索结果
-				 如果pattr是list 列表,则判断如果attri=True则搜索属性,如果不是则分别递归自己直到找出结果
+	# Params   : tag=BeautifulSoup返回的Tag对象,css=按css选择器搜索,withTxt=按标签内文本搜索,more=是否返回所有结果,attri=是否返回属性值如果不是则返回标签文本内容
 	# Notes    : 1.不管css和withTxt有多少个，attri只能有一个，不可能css配一个并且withTxt也配一个！那样就太复杂了
 				   如果attri为空，则取标签包含的内容，如果有attri，则取标签的相应属性值
 				 2.withKey指的是通过Tag.find_all()函数来查找，返回的是Tags；这和withTxt的方式大不同。
 				 3.如果a=[]的话，a += '' 仍是[]，而不是['']
 				 4.Tag.select(xx)不支持参数为空
-				 5.Tag.find_all(text=withKey)时，如果withKey为空时会返回一大堆空字符串结果，即内容为空的标签的内容。
-				 6.Tag.find_all(text='xx')时候，返回的不是Tag而是String
-				 7.本函数用法：css/withTxt/withKey可以是字符串或列表，三参数时or的关系可组合应用，以适合不同需要。
+				 5.Tag.find_all('')时，会返回一大堆空字符串结果，即内容为空的标签的内容。
+				 6.Tag.find_all(text='xx')时候，返回的不是Tag而是String，而且不是Unicode的字符串，而是普通编码！
+				 7.本函数用法：css/withTxt/withKey可以是字符串或列表，
+				   三参数时or的关系可组合应用，但是withTxt不能和attri合用。因为withTxt只返回字符串没有属性值。
+				   withKey，
 				 8.本函数如果有多个结果，则返回列表；如果只有一个结果，返回字符串；如果没有结果返回空字符串。
+				   多重查询即是这样，目的是增加搜索条件，也就增加机率获取信息。多重条件直接是多选关系，而不是限制关系。
 				 9.如果有attri参数，则返回所有结果Tag的属性值；如果没有，则返回所有结果Tag的文本内容。
 	'''
+	# print 'css=%s, withTxt=%s, withKey=%s, attri=%s, more=%s' %(repr(css),repr(withTxt),repr(withKey),repr(attri),repr(more)) # 测试用
 	retr = [] # 待返回的列表对象
 	# 不管css和withTxt是列表、字符、空，统一化为列表进行循环，方便处理
 	for c in css if isinstance(css, list) else [css]: 
 		try:
 			result = tag.select(c) if css else ''
-			# print 'in wk [%d].' % len(result) # 测试用
 			if attri: retr += [t[attri]                 for t in result] if result else ''
 			else:     retr += [t.get_text(strip=True)   for t in result] if result else ''
 		except: continue # print 'Failed on analyzing "%s"' %str(css) # 测试用
@@ -42,29 +42,43 @@ def bsGet(tag, css='', withTxt='', withKey='', attri='', more=False):
 		try:
 			wt = unicode(wt, 'utf-8') # 符合“全程Unicode”规则
 			result = tag.find_all(text=re.compile(wt))
-			# print 'in wt [%d].' % len(result) # 测试用
 			retr += [s.replace(wt, '') for s in result] if result else ''
 		except: continue # print 'Failed on analyzing "%s"' %str(css) # 测试用
-	for wk in withKey if isinstance(withKey, list) else [withKey]:
-		try:
-			result = tag.find_all(wk)
-			# print 'in wk [%d].' % len(result) # 测试用
-			if attri: retr += [t[attri] for t in result] if result else ''
-			else:     retr += [t.string for t in result] if result else ''
-		except: continue # print 'Failed on analyzing "%s"' %str(withKey) # 测试用
+	# for wk in withKey if isinstance(withKey, list) else [withKey]:
+	# 	try:
+	# 		result = tag.find_all(wk)
+	# 		if attri: retr += [t[attri] for t in result] if result else ''
+	# 		else:     retr += [t.string for t in result] if result else ''
+	# 	except: continue # print 'Failed on analyzing "%s"' %str(withKey) # 测试用
 	# print len(retr) # 测试用
-	if not retr : return ''
+	if not retr : return u''
 	return retr[0] if not more else retr
-
 def TEST_bsGet():
 	# ============ Start -> 测试块 ================
-	src = open('./Templates/test-Zhilian-list-page-sm0.html', 'r')
+	src = open('./Templates/Zhilian-list-page-sm1.html', 'r')
 	# src = urllib.urlopen('http://sou.zhaopin.com/jobs/searchresult.ashx')
 	html_doc = unicode(src.read(),'utf-8')
 	soup = BeautifulSoup(html_doc, 'html5lib')
-	tags = soup.select('[class$=newlist]')
-	# Call the target function as test --------------->>>>>>>>>>>>>>
-	obj = bsGet(tags[2], css='', withTxt=['[class$=newlist]','dl p'], withKey='公司性质：', attri='class')
+	rows = soup.select('[class$=newlist]')
+	# test for -> Call the target function --------------->>>>>>>>>>>>>>
+	cs = bsGet(rows[2], css='[class*=zwmc]')
+	at = bsGet(rows[2], css='input', attri='value')
+	wt = bsGet(rows[2], withTxt='地点：')
+	# wk = bsGet(rows[2], withKey='') # 暂时没想好withKey要放在哪用
+	mu = bsGet(rows[2], css=['td[class=gxsj]', 'dl p'], attri='class')
+	mr = bsGet(soup, css=['td[class=gxsj]', 'dl p'], withTxt='公司性质：', more=True)
+	print 'CSS:', cs
+	print 'Attribute:', at
+	print 'WithTxt:', wt
+	# print 'WithKey:', wk
+	print 'Multi-Search:', mu
+	print mr
+	# test for -> charset of return infos by different methods --------------->>>>>>>>>>>>>>
+	print 'CSS feedback an unicode string: ',type(cs) == type(u'')
+	print 'Attribute feedback an unicode string: ',type(at) == type(u'')
+	print 'WithTxt feedback an unicode string: ',type(wt) == type(u'')
+	# print 'WithKey feedback an unicode string: ',type(wk) == type(u'')
+	print 'Multi-Search feedback an unicode string: ',type(mu) == type(u'')
 	# ============ End   -> 测试块  ==============
 
 def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
@@ -95,6 +109,16 @@ def webPageSourceCode(baseUrl='', urlParams={}, method='GET', antiRobot={}):
 		print 'No resources found : %s\nThe error internet resource is :' %fullUrl
 		print e
 		return {'html':'','fullUrl':'','trueUrl':''}
+def TEST_webPageSourceCode():
+	pass
+
+def txtLog(data, filename=''):
+	'''
+	# Function: 将数据输出为txt文件格式。
+	'''
+	output = '\n'.join(data).encode('utf-8')
+	with open(filename, 'w') as f:
+		f.write(output)
 
 # 计算时间
 def timeup(foo, attr1, attr2, attr3):
