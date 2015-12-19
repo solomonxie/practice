@@ -7,8 +7,11 @@
 	# Update: 
 '''
 # === 必备模块 ===
-import urllib2, urllib, re
-from bs4 import BeautifulSoup
+import urllib2, urllib, re, random
+import requests # 第三方
+from bs4 import BeautifulSoup # 第三方
+# === 自制模块 ===
+from ipStore import *
 
 def bsGet(tag, css='', withTxt='', withKey='', attri='', more=False):
 	'''
@@ -28,6 +31,7 @@ def bsGet(tag, css='', withTxt='', withKey='', attri='', more=False):
 				   多重查询即是这样，目的是增加搜索条件，也就增加机率获取信息。多重条件直接是多选关系，而不是限制关系。
 				 9.如果有attri参数，则返回所有结果Tag的属性值；如果没有，则返回所有结果Tag的文本内容。
 	'''
+	import re
 	# print 'css=%s, withTxt=%s, withKey=%s, attri=%s, more=%s' %(repr(css),repr(withTxt),repr(withKey),repr(attri),repr(more)) # 测试用
 	retr = [] # 待返回的列表对象
 	# 不管css和withTxt是列表、字符、空，统一化为列表进行循环，方便处理
@@ -81,48 +85,100 @@ def TEST_bsGet():
 	print 'Multi-Search feedback an unicode string: ',type(mu) == type(u'')
 	# ============ End   -> 测试块  ==============
 
-def webPageSourceCode(baseUrl='', local=False, urlParams={}, method='GET', antiRobot={}):
+def webPageSourceCode(baseUrl='', local=False, saveFile='', urlParams={}, method='GET', retry=3):
 	'''	
 	# Function: 抽象出来模块化的网页源码获取函数：传入网址及必要信息,返回源码等相关信息
 	# Params  : baseUrl=准备抓取的网址,method=GET | POST,urlParams=URL中的参数,antiRobot=爬虫伪装方式
+				retry=解析失败后的重试次数
 	'''
-	# === 本地方式读取源码 ===
+	if retry < 1 : return ''
+	# # IP代理尝试 request用法
+	# url = 'http://www.ip.cn/'
+	# r = requests.get(url, proxies=proxies)
+	# print r.text
+	# return ''
+	# === 本地方式读取源码[一般为测试用] ===
 	if local:
 		with open(baseUrl, 'r') as src:
 			print 'Processing Url: %s' %baseUrl
 			html_doc = unicode(src.read(),'utf-8')
-			return {'html':html_doc,'fullUrl':'','trueUrl':''}
-
-	# === 在线读取源码 ===
-	headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'}
+			return {'html':html_doc}
 	# === Post方式获取源码 ===
-	# req = urllib2.Request(baseUrl, urllib.urlencode(urlParams), headers)
-	# src = urllib2.urlopen(req)
+	if   method == 'POST': 
+		postdata = urllib.urlencode(urlParams)
+		# 使用urllib2库请求连接
+		# req = urllib2.Request( baseUrl, post, headers() )
+		# src = urllib2.urlopen(req)
+		# html_doc = unicode(src.read(),'utf-8')
+		# 使用requests库请求连接 ===
+		src = requests.post(baseUrl, postdata, headers=headers(), proxies=getIP(ipformat='PROXY') )
+		html_doc = src.text
+		if saveFile: txtLog(html_doc, saveFile) # 将网页存入本地
+		return {'html':html_doc}
 	# === Get 方式获取源码 ===
-	if urlParams : fullUrl = '%s?%s' %(baseUrl, urllib.urlencode(urlParams))
-	else : fullUrl = baseUrl
-	# fullUrl = '%s?%s' %(baseUrl, urllib.urlencode(urlParams)) if urlParams else baseUrl
-	print 'Connecting this web page: %s' %fullUrl
-	try: 
-		src = urllib2.urlopen(fullUrl)
-		trueUrl = src.geturl() # 获取真实Url网址
-		# === [本地测试] ===
-		# src = open('./Templates/58Job-list-no-records-page.html', 'r') # 测试用,0.001秒
-		# trueUrl = 'localhost.' # 测试用
-		# print 'Processing Url: %s' %fullUrl # 测试用。显示正在处理的网页
-		html_doc = unicode(src.read(),'utf-8') # 用时1秒。
-		print 'Succeeded loading this web page.'
-		# === 函数返回网页源码,及必要信息 ===
-		return {'html':html_doc,'fullUrl':fullUrl,'trueUrl':trueUrl}
-	except Exception as e:
-		print 'No resources found : %s\nThe error internet resource is :' %fullUrl
-		print e
-		return {'html':'','fullUrl':'','trueUrl':''}
+	elif method == 'GET' :
+		print 'Connecting this web page >>> %s' %baseUrl
+		try: 
+			# 使用urllib2库请求连接 ===
+			# src = urllib2.urlopen(baseUrl)
+			# html_doc = unicode(src.read(),'utf-8') # 用时1秒。
+			# 使用requests库请求连接 ===
+			src = requests.get(baseUrl, headers=headers(), proxies=getIP(ipformat='PROXY') )
+			html_doc = src.text
+			print 'Successfully loaded this web page. :)'
+			if saveFile: txtLog(html_doc, saveFile) # 将网页存入本地
+			return {'html':html_doc}
+		except Exception as e:
+			print 'No resources found : %s\nThe error internet resource is :' %baseUrl
+			print e
+			# 解析失败后，重新解析
+			# webPageSourceCode(baseUrl,local,urlParams,method,retry-1) # 重试次数递减
 def TEST_webPageSourceCode():
-	webTarget = webPageSourceCode('http://bj.58.com/job/pn12/?key=%E6%95%B0%E6%8D%AE&cmcskey=%E6%95%B0%E6%8D%AE&final=1&specialtype=gls&canclequery=isbiz%3D0&PGTID=0d302408-0000-17bd-7c0f-d5f89cf17696&ClickID=1')
-	soup = BeautifulSoup(webTarget['html'], 'html5lib')
-	with open('t.html', 'w') as f:
-		f.write(soup.prettify('utf-8'))
+	url = 'http://ipecho.net/plain' # 专业HTTP测试网址，它能返回本机IP地址
+	# url = 'http://httpbin.org/ip' # 专业HTTP测试网址，它能返回本机IP地址
+	# url = 'http://www.kuaidaili.com/free/'
+	webTarget = webPageSourceCode(url)
+	print webTarget['html']
+	# soup = BeautifulSoup(webTarget['html'], 'html5lib')
+	# with open('log.html', 'w') as f:
+	# 	f.write(soup.prettify('utf-8'))
+	return ''
+
+def headers(hd={}):
+	'''
+	# Function: 存储各种HTTP的headers信息，随机返回各自headers
+	# Notes   : 1. 为了统一本机IP和headers的IP，这里加了个ip参数，由调用者统一过来。
+				2. 参数hd代表标准headers字典格式，由使用处传进来。如Referer参数指定来源网址，
+					那么在调用本函数时应该写：headers(hd={'Referer':'http://www.xxx.com'})这样的
+					优先使用调用者的headers，如果没有指定则在这里定义默认的。
+	'''
+	# 来源浏览器
+	agents = []
+	agents.append('Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))') # IE
+	agents.append('Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36') # Chrome
+	agents.append('Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25') # Safari Mobile
+	agents.append('Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30') # Android Webkit Browser 
+	agents.append('Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25') # Safari Mobile
+	if not hd.has_key('User-Agent'): hd['User-Agent']= agents[random.randint(0,len(agents)-1)] 
+	# 请求的多媒体类型
+	if not hd.has_key('Content-Type'): hd['Content-Type'] = 'application/x-www-form-urlencoded' 
+	# 来自链接
+	# hd['Referer']      = '' # 暂时空白，由使用处定义
+	# 优先使用的连接类型
+	if not hd.has_key('Connection'): hd['Connection'] = 'keep-alive' 
+	# 接受的回应内容类型
+	if not hd.has_key('Accept'): hd['Accept'] = 'text/html' 
+	# 接受的字符集
+	if not hd.has_key('Accept-Encoding'): hd['Accept-Encoding'] = 'utf-8' 
+	# 接受的编码方式列表
+	if not hd.has_key('Charset'): hd['Charset'] = 'gzip, deflate' 
+	# 之前由服务器通过Set-Cookie发送的一个Cookie
+	# hd['Cookie'] = ''
+	# print 'Using the HTTP-Headers with %s'%repr(hd) # 测试用
+	return hd
+def TEST_headers():
+	headers = headerStore()
+	print headers
 
 def txtLog(data, filename=''):
 	'''
@@ -177,7 +233,17 @@ def timeup(foo=''):
 	tm = end-start
 	print '=== Spend %d sec. on running %s()\n' %(tm, foo.__name__)
 
+def test():
+	req = urllib2.Request('http://www.proxy.com.ru/')
+	try:
+		obj = urllib2.urlopen(req)
+		txt = obj.read()
+		with open('log.html', 'w') as f:
+			f.write(txt)
+	except urllib2.URLError as e:
+		print e.code
 
 # ===============================================================================================
 if __name__ == '__main__':
-	TEST_bsGet()
+	# TEST_bsGet()
+	TEST_webPageSourceCode()

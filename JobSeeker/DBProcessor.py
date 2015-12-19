@@ -3,6 +3,9 @@
 # === 使用MySQL数据库 ===
 import MySQLdb
 
+def test():
+	TEST_sqlInsert()
+
 def sqlInsert(table='', titles='', values=[], sqlfile=''):
 	'''
 	# Function: 根据数据，生成批量Sql插入数据语句，并生成Mysql的.sql文件。
@@ -51,6 +54,8 @@ def TEST_sqlInsert():
 	sqlfile = './data/INSERT_INTO_TEMP_SEARCHRESULTS_ZHILIAN.sql'
 	sqlInsert('TEMP_SEARCHRESULTS_ZHILIAN', titles=titles, values=values, sqlfile=sqlfile)
 
+
+
 # -----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
-	TEST_sqlInsert()
+	test()
