@@ -1,2 +1,0 @@
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("光伏发电公司","http://qy.58.com/41246915/","大丰","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("贵阳无脚鸟科技","http://qy.58.com/34492989/","大丰","");

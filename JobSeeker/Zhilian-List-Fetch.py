@@ -13,7 +13,7 @@
 import urllib2, urllib, re
 from bs4 import BeautifulSoup
 # === 自制工具模块 ===
-from WebspiderToolbox import webPageSourceCode,bsGet,txtLog,urlAnalyse,timeup
+from WebspiderToolbox import *
 from DBProcessor import sqlInsert
 
 def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nextUrl=''):
@@ -125,9 +125,6 @@ def ZhilianSearchList(keyword='数据', assignPage=1, totalPages=1, scope=0, nex
 		# 输出结果：MySQL的sql文件输出
 		sqlfile = './data/INSERT_INTO_TEMP_SEARCHRESULTS_ZHILIAN.sql'
 		fback = sqlInsert('TEMP_SEARCHRESULTS_ZHILIAN', titles, values, sqlfile=sqlfile)
-		# print fback
-		# 输出结果：txt文件输出
-		# fback = txtLog(data,'./data/ZhilianSearch-%s-scope%d-p%d.txt' %(soup.title.get_text(), scope, truePage))
 		# print fback
 	'''
 		# === 递归调用函数自身,循环读取下一页 ===

@@ -85,54 +85,34 @@ def TEST_bsGet():
 	print 'Multi-Search feedback an unicode string: ',type(mu) == type(u'')
 	# ============ End   -> 测试块  ==============
 
-def webPageSourceCode(baseUrl='', local=False, saveFile='', urlParams={}, method='GET', retry=3):
+def webPageSourceCode(baseUrl='', local=False, urlParams={}, method='GET', proxy='', headers={}, retry=3, debug=False):
 	'''	
 	# Function: 抽象出来模块化的网页源码获取函数：传入网址及必要信息,返回源码等相关信息
 	# Params  : baseUrl=准备抓取的网址,method=GET | POST,urlParams=URL中的参数,antiRobot=爬虫伪装方式
 				retry=解析失败后的重试次数
+	# Notes   : 本函数内不使用try...except...异常捕获，因为太复杂，所以应有使用者调用。
 	'''
 	if retry < 1 : return ''
-	# # IP代理尝试 request用法
-	# url = 'http://www.ip.cn/'
-	# r = requests.get(url, proxies=proxies)
-	# print r.text
-	# return ''
-	# === 本地方式读取源码[一般为测试用] ===
+	html_doc = ''
 	if local:
 		with open(baseUrl, 'r') as src:
-			print 'Processing Url: %s' %baseUrl
+			print 'Processing this File: %s' %baseUrl
 			html_doc = unicode(src.read(),'utf-8')
 			return {'html':html_doc}
-	# === Post方式获取源码 ===
-	if   method == 'POST': 
+	print 'Connecting this web page >>> %s' %baseUrl
+	if   method == 'POST' and not local: 
 		postdata = urllib.urlencode(urlParams)
-		# 使用urllib2库请求连接
-		# req = urllib2.Request( baseUrl, post, headers() )
-		# src = urllib2.urlopen(req)
-		# html_doc = unicode(src.read(),'utf-8')
-		# 使用requests库请求连接 ===
-		src = requests.post(baseUrl, postdata, headers=headers(), proxies=getIP(ipformat='PROXY') )
-		html_doc = src.text
-		if saveFile: txtLog(html_doc, saveFile) # 将网页存入本地
+		src = requests.post(baseUrl, postdata, headers=headerStore(headers), proxies=proxy, timeout=5 )
+		html_doc = src.text if src else ''
+	elif method == 'GET'  and not local:
+		src = requests.get(baseUrl, headers=headerStore(headers), proxies=proxy, timeout=5 )
+		html_doc = src.text if src else ''
+	if html_doc:
+		print 'Successfully loaded this web page. :)'
 		return {'html':html_doc}
-	# === Get 方式获取源码 ===
-	elif method == 'GET' :
-		print 'Connecting this web page >>> %s' %baseUrl
-		try: 
-			# 使用urllib2库请求连接 ===
-			# src = urllib2.urlopen(baseUrl)
-			# html_doc = unicode(src.read(),'utf-8') # 用时1秒。
-			# 使用requests库请求连接 ===
-			src = requests.get(baseUrl, headers=headers(), proxies=getIP(ipformat='PROXY') )
-			html_doc = src.text
-			print 'Successfully loaded this web page. :)'
-			if saveFile: txtLog(html_doc, saveFile) # 将网页存入本地
-			return {'html':html_doc}
-		except Exception as e:
-			print 'No resources found : %s\nThe error internet resource is :' %baseUrl
-			print e
-			# 解析失败后，重新解析
-			# webPageSourceCode(baseUrl,local,urlParams,method,retry-1) # 重试次数递减
+	else: 
+		print 'It did not work, sorry (-_-!)'
+		return {'html':'html_doc'}
 def TEST_webPageSourceCode():
 	url = 'http://ipecho.net/plain' # 专业HTTP测试网址，它能返回本机IP地址
 	# url = 'http://httpbin.org/ip' # 专业HTTP测试网址，它能返回本机IP地址
@@ -144,7 +124,7 @@ def TEST_webPageSourceCode():
 	# 	f.write(soup.prettify('utf-8'))
 	return ''
 
-def headers(hd={}):
+def headerStore(hd={}):
 	'''
 	# Function: 存储各种HTTP的headers信息，随机返回各自headers
 	# Notes   : 1. 为了统一本机IP和headers的IP，这里加了个ip参数，由调用者统一过来。
@@ -159,34 +139,43 @@ def headers(hd={}):
 	agents.append('Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25') # Safari Mobile
 	agents.append('Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30') # Android Webkit Browser 
 	agents.append('Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25') # Safari Mobile
-	if not hd.has_key('User-Agent'): hd['User-Agent']= agents[random.randint(0,len(agents)-1)] 
+	# if not hd.has_key('User-Agent'): hd['User-Agent'] = agents[ random.randint(0,len(agents)-1) ] 
+	hd['User-Agent'] = agents[ random.randint(0,len(agents)-1) ] 
 	# 请求的多媒体类型
-	if not hd.has_key('Content-Type'): hd['Content-Type'] = 'application/x-www-form-urlencoded' 
+	# if not hd.has_key('Content-Type'): hd['Content-Type'] = 'application/x-www-form-urlencoded' 
 	# 来自链接
 	# hd['Referer']      = '' # 暂时空白，由使用处定义
 	# 优先使用的连接类型
-	if not hd.has_key('Connection'): hd['Connection'] = 'keep-alive' 
+	# if not hd.has_key('Connection'): hd['Connection'] = 'keep-alive' 
 	# 接受的回应内容类型
-	if not hd.has_key('Accept'): hd['Accept'] = 'text/html' 
+	# if not hd.has_key('Accept'): hd['Accept'] = 'text/html' 
 	# 接受的字符集
-	if not hd.has_key('Accept-Encoding'): hd['Accept-Encoding'] = 'utf-8' 
+	# if not hd.has_key('Accept-Encoding'): hd['Accept-Encoding'] = 'utf-8' 
 	# 接受的编码方式列表
-	if not hd.has_key('Charset'): hd['Charset'] = 'gzip, deflate' 
+	# if not hd.has_key('Charset'): hd['Charset'] = 'gzip, deflate' 
 	# 之前由服务器通过Set-Cookie发送的一个Cookie
 	# hd['Cookie'] = ''
 	# print 'Using the HTTP-Headers with %s'%repr(hd) # 测试用
 	return hd
-def TEST_headers():
+def TEST_headerStore():
 	headers = headerStore()
 	print headers
 
-def txtLog(data, filename=''):
+def saveHtml(html, filename=''):
 	'''
-	# Function: 将数据输出为txt文件格式。
+	# Function: 将html保存到本地
 	'''
 	output = '\n'.join(data).encode('utf-8')
 	with open(filename, 'w') as f:
 		f.write(output)
+
+def txtLog(log='', err=None, debug=False):
+	if not log: return ''
+	if debug: print log
+	with open('log.txt', 'a') as f:
+		# f.write('='*40 + time.now + '\n' + '='*40)
+		f.write(log+'\n')
+		# if err: f.write(err)
 
 def urlAnalyse(url=''):
 	'''

@@ -1,9 +1,0 @@
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("独立经纪人","http://qy.58.com/13612248206855/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("特别特有限责任公司","http://qy.58.com/39229962/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("博乐市兴乐商贸城升达地板专卖","http://qy.58.com/40656543/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("北京致信嘉和科技发展有限公司","http://qy.58.com/21687087/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("新疆厚德国际货运代理有限公司","http://qy.58.com/41347099/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("乌鲁木齐精英台球城","http://qy.58.com/36656426/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("快乐成长双语幼儿园","http://qy.58.com/35158238/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("鹏盛婚礼策划公司","http://qy.58.com/35146174/","博尔塔拉","");
-INSERT INTO FIRMS(cmpName, cmpLink_58, cmpCity, industry) VALUES("黄真科技五线","http://qy.58.com/23778857/","博尔塔拉","");
