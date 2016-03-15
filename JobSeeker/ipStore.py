@@ -14,19 +14,10 @@ import os
 # === 自制模块 ===
 from WebspiderToolbox import *
 
-def myIP(WAN=False):
-	'''
-		# 获取本机的公网IP或局域网IP
-		# 目前不知道别的办法，就通过和本机命令行交互'nslookup'命令来获取公网IP吧
-	'''
-	# 获取公网IP
-	cmd  = os.popen('nslookup')
-	for line in cmd.readlines():
-		if 'Address:' in line: 
-			print line
-			wanip = line.replace('Address:  ','')
-			print wanip
-			return wanip
+def main():
+	# for i in range(2): print repr( getIP(ipformat='PROXY') )
+	# updateIPs() # 更新在线的IP库
+	TEST_ipFromText()
 
 def getIP(ipformat='', more=False):
 	'''
@@ -69,7 +60,7 @@ def saveIPs(proxies=[]):
 	with open('./data/ips/ip_%s.txt'%now.strftime('%Y%m%d'), 'a') as f:
 		f.write('\n'.join(proxies)+'\n' )
 
-def verifyIP(ip=''):
+def verifyProxy(ip=''):
 	'''
 	Function: 在线或在本地服务器网站（为了快速），检验IP是否可用、是否统一、是否高匿等
 	Notes   : 先到网站上获取本机真实IP再做对比
@@ -88,12 +79,77 @@ def verifyIP(ip=''):
 		# print 'Using IP [%s], and the IP [%s] is detected.'%(ip, str(resu))
 		return True
 	else: return False
-def TEST_verifyIP():
-	# print verifyIP('117.136.234.7:843')
+def TEST_verifyProxy():
+	# print verifyProxy('117.136.234.7:843')
 	proxies = getIP(more=True)
 	for ip in proxies:
-		if verifyIP(ip): print '======================Use this proxy[%s]======================'%ip
+		if verifyProxy(ip): print '======================Use this proxy[%s]======================'%ip
 		else: print 'False'
+
+def ipFromText(content, template=''):
+	'''
+	Function: 从字符串/文本/网页中提取IP地址及端口号
+	Notes   : 目前不支持IP和端口号不在一行中的检测，需要外部调用时进行处理。
+			  除此之外，测试全部通过。
+	'''
+	# print content
+	if template == '':
+		exp = re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*:{0,1}\s*(\d{1,5}){0,1}')
+		resu = exp.findall(content)
+		# return resu
+		return [':'.join(each) if len(each)>1 else each[0] for each in resu]
+		# print resu
+	elif template == 'Tr-Td':
+		exp = re.compile('(<td[^<>]*>)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*:?\s*(\d{1,5})?(</td>)?\s*(<td[^<>]*>)?(\d{1,5})(</td>)?')
+def TEST_ipFromText():
+	print '------Test 1 : 纯净完整IP------'
+	resu = ipFromText('192.168.1.1:8080')
+	print resu
+	if len(resu) == 1: print 'Pass :-)'
+	else:              print '#'*40+'Failed :('
+	print '------Test 2 : 两边有多余内容------'
+	resu = ipFromText('agbadlsajf;j0.0.0.0:21aksfjjwoe')
+	print resu
+	if len(resu) == 1: print 'Pass :-)'
+	else:              print '#'*40+'Failed :('
+	print '------Test 3 : 一行中2个IP------'
+	resu = ipFromText('agbadlsajf;j192.168.1.1:8080aksfjjwoe;127.0.0.0:80jio')
+	print resu
+	if len(resu) == 2: print 'Pass :-)'
+	else:              print '#'*40+'Failed :('
+	print '------Test 4 : IP与端口号没有冒号分隔------'
+	resu = ipFromText('agbadlsajf;j192.168.1.1:8080aksfjjwoe;127.0.0.0  80jio')
+	print resu
+	if len(resu) == 2: print 'Pass :-)'
+	else:              print '#'*40+'Failed :('
+	print '------Test 5 : 其中1个没有端口号------'
+	resu = ipFromText('agbadlsajf;j192.168.1.1aksfjjwoe;127.0.0.0:21jio')
+	print resu
+	if len(resu) == 2: print 'Pass :-)'
+	else:              print '#'*40+'Failed :('
+	print '------Test 6 : 多行文字中的IP------'
+	resu = ipFromText('agbadlsajf;j192.168.1.1:8080aksfjjwoe\n;127.0.0.0    80  jio')
+	print resu
+	if len(resu) == 2: print 'Pass :-)'
+	else:              print '#'*40+'Failed :('
+	print '------Test 7 : IP与端口号不在一行------'
+	resu = ipFromText('''agbadlsajf;j192.168.1.1
+		8080lasdjflj''')
+	print resu
+	if len(resu) == 1 and len(resu[0]) == 2: print 'Pass :-)'
+	else:             print '#'*40+'Failed :('
+	print '------Test 8 : 没有IP------'
+	resu = ipFromText('agbadlsajflkjsdjfjio')
+	print resu
+	if len(resu) == 0: print 'Pass :-)'
+	else:              print '#'*40+'Failed :('
+	print '------Test 9 : 在网页中检索IP------'
+	# import requests
+	# resu = ipFromText( requests.get('http://proxy.ipcn.org/proxylist.html').text )
+	# print len(resu)
+	# print resu[:3] if len(resu) > 3 else resu
+	# if len(resu) > 0: print 'Pass :-)'
+	# else:             print 'Failed :('
 
 def ip_on_kuaidaili_com(pn, online=False):
 	'''
@@ -148,6 +204,4 @@ def ip_on_ipcn_org(online=False, anotherUrl=''):
 
 # ---------------------------------------------------------------------------------
 if __name__ == '__main__':
-	# for i in range(2): print repr( getIP(ipformat='PROXY') )
-	# updateIPs() # 更新在线的IP库
-	myIP()
+	main()

@@ -13,6 +13,10 @@ from bs4 import BeautifulSoup # 第三方
 # === 自制模块 ===
 from ipStore import *
 
+def self_init():
+	# TEST_bsGet()
+	TEST_webPageSourceCode()
+
 def bsGet(tag, css='', withTxt='', withKey='', attri='', more=False):
 	'''
 	# Function : 根据搜索条件,返回搜索结果的字符串(Unicode格式！！)
@@ -102,10 +106,10 @@ def webPageSourceCode(baseUrl='', local=False, urlParams={}, method='GET', proxy
 	print 'Connecting this web page >>> %s' %baseUrl
 	if   method == 'POST' and not local: 
 		postdata = urllib.urlencode(urlParams)
-		src = requests.post(baseUrl, postdata, headers=headerStore(headers), proxies=proxy, timeout=5 )
+		src = requests.post(baseUrl, postdata, headers=aheader(headers), proxies=proxy, timeout=5 )
 		html_doc = src.text if src else ''
 	elif method == 'GET'  and not local:
-		src = requests.get(baseUrl, headers=headerStore(headers), proxies=proxy, timeout=5 )
+		src = requests.get(baseUrl, headers=aheader(headers), proxies=proxy, timeout=5 )
 		html_doc = src.text if src else ''
 	if html_doc:
 		print 'Successfully loaded this web page. :)'
@@ -124,7 +128,7 @@ def TEST_webPageSourceCode():
 	# 	f.write(soup.prettify('utf-8'))
 	return ''
 
-def headerStore(hd={}):
+def aheader(hd={}):
 	'''
 	# Function: 存储各种HTTP的headers信息，随机返回各自headers
 	# Notes   : 1. 为了统一本机IP和headers的IP，这里加了个ip参数，由调用者统一过来。
@@ -157,25 +161,9 @@ def headerStore(hd={}):
 	# hd['Cookie'] = ''
 	# print 'Using the HTTP-Headers with %s'%repr(hd) # 测试用
 	return hd
-def TEST_headerStore():
-	headers = headerStore()
+def TEST_aheader():
+	headers = aheader()
 	print headers
-
-def saveHtml(html, filename=''):
-	'''
-	# Function: 将html保存到本地
-	'''
-	output = '\n'.join(data).encode('utf-8')
-	with open(filename, 'w') as f:
-		f.write(output)
-
-def txtLog(log='', err=None, debug=False):
-	if not log: return ''
-	if debug: print log
-	with open('log.txt', 'a') as f:
-		# f.write('='*40 + time.now + '\n' + '='*40)
-		f.write(log+'\n')
-		# if err: f.write(err)
 
 def urlAnalyse(url=''):
 	'''
@@ -203,36 +191,7 @@ def urlAnalyse(url=''):
 					])     # 参数值,字典形式。如{['key':'关键词','city':'北京']}
 	}
 
-def ask(hello='', tp=str, ori=False):
-	if not hello: 
-		print 'No question no answer.'
-		return ''
-	hello  = hello if ori else 'Please tell me about this ["%s"] to continue:\n' %hello
-	answer = raw_input(hello)
-	return tp(answer)
 
-# 计算时间
-def timeup(foo=''):
-	if not foo: return ''
-	import time
-	tm = -1
-	start = time.clock()
-	eval(foo)
-	end = time.clock()
-	tm = end-start
-	print '=== Spend %d sec. on running %s()\n' %(tm, foo.__name__)
 
-def test():
-	req = urllib2.Request('http://www.proxy.com.ru/')
-	try:
-		obj = urllib2.urlopen(req)
-		txt = obj.read()
-		with open('log.html', 'w') as f:
-			f.write(txt)
-	except urllib2.URLError as e:
-		print e.code
-
-# ===============================================================================================
 if __name__ == '__main__':
-	# TEST_bsGet()
-	TEST_webPageSourceCode()
+	self_init()

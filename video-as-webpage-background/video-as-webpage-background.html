@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>视频背景</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.bg-wrp {
+			/*作为全屏背景*/
+			position: absolute;
+			/*作为首页巨幕*/
+			/*position: fixed;*/
+			z-index: -1000;
+			width: 100%; height: 100%;
+			overflow: hidden;
+			top: 0; left: 0;
+		}
+		.bg-video {
+			position: absolute;
+			top: 0; left: 0;
+			min-height: 100%; min-width: 100%;
+		}
+		.content {
+			position: absolute;
+			width: 100%; min-height: 100%;
+			z-index: 1000;
+			background-color: rgb(0,0,0,0.7);
+			color: #fff;
+		}
+		.content h1 {
+			text-align: center;
+			font-size: 65px;
+			text-transform: uppercase;
+			font-weight: 300;
+			padding-top: 15%;
+			margin-bottom: 10px;
+		}
+		.content p {
+			text-align: center;
+			font-size: 20px;
+			letter-spacing: 3px;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="bg-wrp">
+		<video class="bg-video" id="vid-bg-elem" autoplay loop muted>
+			<source src="vid.mp4" type="video/mp4"></source>
+			视频不支持
+		</video>
+	</div>
+
+	<div class="content">
+		<h1>Video Background Trying</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae ipsum aliquam animi ad atque dolorem harum, voluptatibus sit voluptas? Sit, aspernatur! Eligendi asperiores enim facere amet culpa alias corporis sed!</p>
+	</div>
+	
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum eaque laboriosam hic quaerat, dicta odit beatae. Suscipit adipisci maiores nobis expedita amet temporibus, minima unde nesciunt voluptatibus laudantium accusantium sunt, voluptate ad! Explicabo nobis veniam voluptatem, autem natus molestiae earum ad blanditiis fuga odio error doloremque voluptatibus, perferendis nemo, optio eum? Nam sequi eligendi ullam corporis animi aperiam, id aliquid quas est rem porro delectus tenetur iusto accusantium iure minus cupiditate tempora autem, ipsa obcaecati. Vero error commodi adipisci earum optio consequatur inventore voluptatem, itaque a eum quam reiciendis minus eligendi, porro amet fugit deleniti? Dolore sint ratione veritatis. Quod culpa modi suscipit non sapiente possimus reprehenderit dolorem rem, similique nihil unde totam voluptas veniam mollitia architecto praesentium neque accusantium, animi sunt amet consectetur? Unde ipsam molestias inventore quidem exercitationem blanditiis, earum voluptatibus nam delectus nostrum temporibus quo similique quaerat fugiat harum rem voluptatum ut, illo eius velit adipisci. Voluptatibus molestias ipsam voluptatum, quod atque possimus aspernatur eos corporis inventore ullam accusantium voluptates nisi quaerat dolore veritatis reprehenderit nemo repellendus magni, consectetur pariatur laudantium at eum cumque facilis libero? Porro cumque dicta veritatis est, assumenda reiciendis laboriosam repudiandae sunt aspernatur animi ad iusto culpa ea veniam doloremque tempora molestias accusantium numquam esse voluptas officiis ratione architecto saepe rem consequuntur. Facere repellendus aperiam sed, quas adipisci sit dicta saepe nisi odio minus, possimus sequi? Temporibus repellat nobis, at officia, eveniet fuga iure alias illum, ipsum similique asperiores incidunt, maiores numquam provident corporis! Ut ab sapiente sint deleniti in delectus iste, culpa soluta blanditiis corporis debitis natus ad nam ratione, consequuntur accusamus ullam tempore molestias obcaecati asperiores sequi beatae dolores! Exercitationem tempora nulla officia ut culpa et quae suscipit earum, cum architecto nobis, quidem deleniti laboriosam illum quos repudiandae consectetur ab ipsum dolorem reiciendis accusamus modi. Soluta consectetur voluptas illum, veniam provident quasi error exercitationem in beatae, itaque repudiandae adipisci eligendi. Optio, id? Molestias consequuntur voluptas ex omnis vero? Voluptatibus explicabo, asperiores officia earum autem sint. Placeat eaque et distinctio in, suscipit modi ipsa accusamus obcaecati, aliquam mollitia minus ab voluptas illo perferendis fugit repellat assumenda dolor facilis officiis iusto ducimus ex nihil est. Temporibus quis maiores minus non odio ea repellat perspiciatis, laboriosam veritatis illo sequi eveniet, dolore excepturi, sit corporis facilis, quibusdam deleniti. Repellendus fuga iste explicabo error nesciunt deserunt asperiores, in similique, cum accusamus aut qui assumenda nostrum voluptatibus atque fugiat consequatur possimus tempore. Nam explicabo vel facere aliquam iure neque ad a odio. Ipsam sed cumque labore, alias debitis voluptates consequatur earum minus saepe, eos! Itaque iure harum, perferendis et laboriosam enim, in vel dicta eius, pariatur obcaecati, animi alias ipsam id. Minus dolores minima deleniti a sint esse facere soluta labore tempora ullam cum ab numquam aliquam est harum, quidem odio. Fugiat atque quidem animi saepe dicta provident, quia ab consectetur aspernatur ut ducimus a blanditiis odio sunt voluptatibus delectus voluptate laborum voluptatum rem corrupti amet corporis hic totam! Dignissimos, dolores, obcaecati. Recusandae saepe minima officiis enim eius reprehenderit, cupiditate voluptatibus, quis incidunt expedita quasi laborum tempora error. Modi numquam tenetur soluta optio consequuntur? Minus atque aliquid aspernatur vitae, eligendi eum, nihil non, expedita officiis et mollitia nesciunt excepturi! Magnam enim pariatur aperiam iusto, dolores dicta cumque totam doloremque asperiores culpa, numquam, explicabo a, tempora fuga. Error officia laboriosam quidem assumenda veniam praesentium asperiores, pariatur adipisci quisquam, deleniti odit. Sit nisi laboriosam voluptates laudantium, consequuntur culpa repellendus eligendi quia sunt temporibus, inventore beatae corporis similique quas! Rerum, dolorem ipsam modi sed nostrum ratione, blanditiis error dolore vel eveniet aut libero optio perferendis voluptatibus, impedit assumenda corrupti? Recusandae animi eum optio, consectetur nobis, quos vitae temporibus id dolor commodi eius, delectus iste voluptas mollitia sunt ab, similique. Error, sequi libero doloremque quod eius magnam accusantium tempore perferendis molestias impedit sint. Nam cumque aperiam atque, obcaecati ratione repellendus odit animi expedita error dolores consequuntur voluptates sapiente temporibus quis omnis quam maiores ex, eos ab ducimus culpa delectus quas nobis optio! Voluptates, impedit nostrum ad enim, facilis illo porro atque! Provident ipsum, enim, numquam quisquam reprehenderit optio ex officia nobis mollitia, maiores facere modi? Reiciendis sed incidunt, nostrum consectetur minus quia consequuntur harum, nihil aliquid asperiores velit eum similique vero deleniti amet, dolor quaerat beatae. Incidunt deleniti error aliquid, perspiciatis! Hic suscipit, accusamus necessitatibus, voluptatem harum, iusto, itaque sunt excepturi recusandae nobis similique quos architecto ab tempora consectetur? Perspiciatis maxime fuga autem sequi aut, facilis sunt natus eaque, voluptates similique iusto labore odio! Ipsum optio nostrum rem natus commodi, soluta perspiciatis voluptas deleniti nihil delectus alias dicta ab, tempora illo, aut! Provident recusandae dolor, esse a modi, vero atque sed deserunt, velit eveniet odit aut nulla. Sequi deleniti exercitationem, illum eaque temporibus quidem sit, dolorum ex, molestiae alias expedita tempora numquam! Corporis modi repellendus ut explicabo asperiores perferendis illum vel esse nisi nulla, dolorem, soluta id mollitia pariatur amet placeat error animi ipsam accusantium eius aspernatur architecto cum! Veniam at deserunt facere iusto, beatae neque non animi hic nesciunt alias, dolorem nulla magnam tempore, ut doloremque. Odit nihil ducimus maiores omnis quae soluta dignissimos, laborum ipsum cum tempore. Esse architecto voluptatem, maiores voluptates cumque assumenda est velit aliquam dolore quae cum omnis asperiores hic sed quaerat sequi placeat debitis eveniet, neque tempora maxime dolores repellendus suscipit consequuntur. Fugiat laudantium sequi praesentium tenetur eos aspernatur sit, cupiditate laboriosam, minima porro molestias voluptatem magnam facilis, ipsam aut? Fugiat eveniet libero dicta ipsam, blanditiis laudantium voluptatem iusto voluptate nostrum exercitationem quidem cumque ipsum neque molestias. Deserunt provident beatae, inventore est nam placeat maxime harum. Possimus sunt alias cupiditate minus modi eius vitae, sed quidem sint quis, aperiam reprehenderit nobis perferendis eveniet asperiores fugit cumque. Minus doloribus, asperiores quos nulla officiis! At commodi, ea non veritatis, adipisci cupiditate expedita in. Quam maxime dolorem animi impedit, unde nemo error pariatur, molestias repudiandae! Eum minima quae distinctio soluta dolorum nostrum pariatur veniam quibusdam tempore, quasi, vero dolores! Fugit dolore mollitia laudantium eaque beatae, atque, ad sit minima deserunt facilis illo voluptas quaerat expedita tempora velit blanditiis repellendus omnis incidunt similique aspernatur officia asperiores voluptatum, consequuntur aliquid?</p>
+</body>
+</html>
