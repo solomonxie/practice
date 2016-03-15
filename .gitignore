@@ -1,5 +1,4 @@
-# --compiled python modules-- #
-*.pyc
-
-# --Virtualenv files-- #
 venv
+*.pyc
+*.mp3
+*.mp4
