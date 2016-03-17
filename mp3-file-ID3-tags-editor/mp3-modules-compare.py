@@ -29,7 +29,7 @@
 # tag = mp3file.tag
 # tag.artist = u'你好啊;我不好'
 # tag.track_num = 4
-# tag.save()
+# tag.save()\
 # print "  version=[%s]" % eyed3.id3.versionToString(tag.version)
 # print "  title=[%s]" % tag.title
 # print "  artist=[%s]" % tag.artist
@@ -142,3 +142,28 @@
 # artwork = file.tags['APIC:'].data # access APIC frame and grab the image
 # with open('image.jpg', 'wb') as img:
 #    img.write(artwork) # write artwork to new image
+
+
+########################### Musicbrainzngs (MusicBrainz API) ################################
+# 需要pip install musicbrainzngs
+import musicbrainzngs
+musicbrainzngs.set_useragent("solomonMusic", "0.1", "http://solomonxie.top/music")
+result = musicbrainzngs.search_artists(artist="Big Bang", type="group", country="GB")
+for artist in result['artist-list']: print artist['id'] +': '+ artist['name']
+# print len(result['artist-list'])
+# result = musicbrainzngs.search_release_groups("The Oslo Bowl")
+# for album in result['release-group-list']: print album['title']
+
+
+
+
+
+
+
+
+
+########################### beets (MusicBrainz's middleware) ################################
+# 需要pip install beets
+# 一般是在命令行操作的,需要将beet.exe加入环境变量或用beet.reg自动导入
+# 不过在python中调用是另一种方法
+
