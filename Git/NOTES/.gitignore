@@ -1,9 +1,0 @@
-# Ignore everything(only files): 
-# *
-
-# Ignore everything(folders and files):
-*/*
-
-# Except for the themes directories:
-
-
