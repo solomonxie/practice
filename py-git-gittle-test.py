@@ -13,14 +13,10 @@ path = os.getcwd()
 filename = os.path.join(path, __file__) # monitoring current file
 print filename
 
-# name = 'Samy Pessé'
-# email = 'samypesse@gmail.com'
-message = "111C'est beau là bas"
-
 repo = Gittle(path)
 
 repo.stage(__file__)
-repo.commit(message=message)
+repo.commit(name='solomonxie', email='solomonxiewise@gmail.com', message='222hellloooooooooooo')
 
 
 print(('COMMIT_INFO =', repo.commit_info()))
