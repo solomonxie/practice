@@ -8,27 +8,19 @@
 
 import os
 from gittle import Gittle
-from tempfile import mkdtemp
 
-path = mkdtemp()
-fn = 'test.txt'
-filename = os.path.join(path, fn)
+path = os.getcwd()
+filename = os.path.join(path, __file__) # monitoring current file
+print filename
 
-name = 'Samy Pessé'
-email = 'samypesse@gmail.com'
-message = "C'est beau là bas"
+# name = 'Samy Pessé'
+# email = 'samypesse@gmail.com'
+message = "111C'est beau là bas"
 
+repo = Gittle(path)
 
-def create_file():
-    fd = open(filename, 'w+')
-    fd.write('blabla\n BOOM BOOM\n à la montagne')
-    fd.close()
-
-repo = Gittle.init(path)
-create_file()
-
-repo.stage(fn)
-repo.commit(name=name, email=email, message=message)
+repo.stage(__file__)
+repo.commit(message=message)
 
 
 print(('COMMIT_INFO =', repo.commit_info()))
