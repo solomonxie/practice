@@ -15,10 +15,8 @@ print filename
 
 repo = Gittle(path)
 
-repo.stage(__file__)
-repo.commit(name='solomonxie', email='solomonxiewise@gmail.com', message='222hellloooooooooooo')
+# repo.stage(__file__)
+# repo.commit(name='solomonxie', email='solomonxiewise@gmail.com', message='222hellloooooooooooo')
+# print(('COMMIT_INFO =', repo.commit_info()))
 
-
-print(('COMMIT_INFO =', repo.commit_info()))
-
-print(('PATH =', path))
+print len(repo.commits)
