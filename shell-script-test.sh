@@ -81,3 +81,21 @@ echo "start of script."
 # }
 # funWithParam 9 8 7 6 5 4 3 2 1 34 73
 # 
+
+# 直接运行命令
+# man wget
+
+# 多行字符串
+touch ~/test.txt
+# txt="this is line one\n
+# this is line two\n
+# this is line three"
+txt='
+ldjflasjd:"""""f
+asdjf;asjdfl;
+{}0293u121=adsjfalksjdfklaj
+jjoijfal;sdjflj
+'
+echo -e $txt > ~/test.txt
+
+
