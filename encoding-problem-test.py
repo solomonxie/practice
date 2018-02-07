@@ -69,13 +69,24 @@ def __unicoding__(txt=u'', outgoing=False):
 # 获取多种网络资源
 import requests
 # url = 'https://api.github.com/repos/solomonxie/solomonxie.github.io/issues/25/comments'
-url = 'https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386819196283586a37629844456ca7e5a7faa9b94ee8000'
-response = requests.request('GET', url, headers={'Connection':'keep-alive'})
-rsp = __unicoding__(response.text)
+# url = 'http://pycoders-weekly-chinese.readthedocs.io/en/latest/issue5/unipain.html'
+url = 'https://user-images.githubusercontent.com/14041622/35910000-25554b14-0c30-11e8-9102-3c61460c3b39.png'
+# url = 'https://www.jianshu.com/p/cb17cf64a3b2'
+headers = {}
+r = requests.get(url)
+print(r.encoding)
+rsp = r.content # 以二进制获取网页内容
 print(type(rsp))
-rsp = u'' + rsp
-print(type(rsp))
-with open('test.html', 'w') as f:
-    f.write(__unicoding__(rsp, True))
+# print(rsp)
+with open('test.html', 'wb') as f:
+    f.write(rsp)
+#     f.write(__unicoding__(rsp, True))
+
+# rsp = r.text
+# rsp = __unicoding__(response.text)
+# print(type(rsp))
+# print rsp
+# with open('test.html', 'wb') as f:
+#     f.write(__unicoding__(rsp, True))
 
 
