@@ -9,11 +9,19 @@ def main():
     """
     The main entry point of the application
     """
-    logger = logging.getLogger('exampleApp')
-    logger.setLevel(logging.INFO)
+    log = define_logging('exampleeee', 'log.log')
+
+    log.info("Program started")
+    result = logging_submodule.add(7, 8)
+    log.info("Done!")
+
+
+def define_logging(name, path):
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
 
     # create the logging file handler
-    fh = logging.FileHandler("log.log")
+    fh = logging.FileHandler(path)
 
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
@@ -21,9 +29,7 @@ def main():
     # add handler to logger object
     logger.addHandler(fh)
 
-    logger.info("Program started")
-    result = logging_submodule.add(7, 8)
-    logger.info("Done!")
+    return logger
 
 if __name__ == "__main__":
     main()

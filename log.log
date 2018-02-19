@@ -1,0 +1,12 @@
+
+2018-02-19 16:54:04,968 - exampleApp - INFO - Program started
+2018-02-19 16:54:04,968 - exampleApp.submodule.add - INFO - added 7 and 8 to get 15
+2018-02-19 16:54:04,968 - exampleApp - INFO - Done!
+2018-02-19 16:54:10,226 - exampleApp - INFO - Program started
+2018-02-19 16:54:10,226 - exampleApp.submodule.add - INFO - added 7 and 8 to get 15
+2018-02-19 16:54:10,226 - exampleApp - INFO - Done!
+2018-02-19 17:03:30,281 - exampleeee - INFO - Program started
+2018-02-19 17:03:48,245 - exampleeee - INFO - Program started
+2018-02-19 17:04:03,500 - exampleeee - INFO - Program started
+2018-02-19 17:04:03,500 - exampleeee.submodule.add - INFO - added 7 and 8 to get 15
+2018-02-19 17:04:03,500 - exampleeee - INFO - Done!

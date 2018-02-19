@@ -7,7 +7,7 @@ import logging
 #----------------------------------------------------------------------
 def add(x, y):
     """"""
-    logger = logging.getLogger("exampleApp.submodule.add")
-    logger.info("added %s and %s to get %s" % (x, y, x+y))
+    log = logging.getLogger("exampleeee.submodule.add")
+    log.info("added %s and %s to get %s" % (x, y, x+y))
     return x+y
 
