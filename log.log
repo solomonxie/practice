@@ -10,3 +10,11 @@
 2018-02-19 17:04:03,500 - exampleeee - INFO - Program started
 2018-02-19 17:04:03,500 - exampleeee.submodule.add - INFO - added 7 and 8 to get 15
 2018-02-19 17:04:03,500 - exampleeee - INFO - Done!
+2018-02-19 18:25:31,964 - exampleClass - INFO - initttttt from main()
+2018-02-19 18:25:31,965 - exampleClass - WARNING - warning from main()
+2018-02-19 18:26:52,701 - exampleClass - INFO - initttttt from main()
+2018-02-19 18:26:52,701 - exampleClass.submodule.add - INFO - added 7 and 8 to get 15
+2018-02-19 18:26:52,701 - exampleClass - WARNING - warning from main()
+2018-02-19 18:28:34,444 - exampleClass - INFO - initttttt from main()
+2018-02-19 18:28:34,444 - exampleClass.submodule.add - INFO - added 7 and 8 to get 15
+2018-02-19 18:28:34,444 - exampleClass - WARNING - warning from main()
