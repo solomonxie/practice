@@ -1,3 +1,7 @@
 *.swp
 ._*
 .ipynb_checkpoints
+.Python
+bin
+include
+lib
