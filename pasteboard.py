@@ -1,10 +1,11 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 
 # 从PyObjC库的AppKit模块引用NSPasteboard主类，和PNG、TIFF的格式类
 from AppKit import NSPasteboard, NSPasteboardTypePNG, NSPasteboardTypeTIFF
 
+import os
 
 def main():
     print get_paste_img_file()
