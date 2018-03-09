@@ -15,7 +15,7 @@ if ((window.unsafeWindow == null ? window : unsafeWindow).MathJax == null) {
     var img = images[i];
     if (img.className === "tex") {
       var script = document.createElement("script"); script.type = "math/tex";
-      if (window.opera) {script.innerHTML = img.alt} else {script.text = img.alt}
+      //if (window.opera) {script.innerHTML = img.alt} else {script.text = img.alt}
       img.parentNode.replaceChild(script,img);
     }
   }
@@ -31,7 +31,7 @@ if ((window.unsafeWindow == null ? window : unsafeWindow).MathJax == null) {
                  'jax:["input/TeX"]' +
                '});' +
                'MathJax.Hub.Startup.onload()';
-  if (window.opera) {script.innerHTML = config} else {script.text = config}
+  //if (window.opera) {script.innerHTML = config} else {script.text = config}
   document.getElementsByTagName("head")[0].appendChild(script);
 }
 
